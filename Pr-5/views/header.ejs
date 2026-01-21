@@ -1,0 +1,162 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Apple Cinema </title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <!-- Bootstrap -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+
+  <!-- Font Awesome -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet" />
+
+  <style>
+:root {
+  --bg-dark: #0b061f;
+  --bg-mid: #1b1035;
+  --bg-light: #2a145a;
+  --primary: #a855f7;
+  --secondary: #ec4899;
+  --accent: #facc15;
+  --text-light: #f8fafc;
+  --glass: rgba(255,255,255,0.08);
+  --border: rgba(255,255,255,0.15);
+}
+
+body {
+  background: linear-gradient(135deg,var(--bg-dark),var(--bg-mid),var(--bg-light));
+  min-height: 100vh;
+}
+
+/* ================= NAVBAR ================= */
+
+.apple-text{
+  background: linear-gradient(135deg,#ff2d55,#ff9500,#ffcc00);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.cinema-text{
+  color:#f8fafc;
+}
+.navbar {
+  background: rgba(11,6,31,0.65) !important;
+  backdrop-filter: blur(14px);
+  border-bottom: 1px solid var(--border);
+}
+
+.navbar-brand span {
+  letter-spacing: 1px;
+}
+
+.nav-link {
+  position: relative;
+  color: var(--text-light) !important;
+  font-weight: 500;
+}
+
+.nav-link::after {
+  content: "";
+  position: absolute;
+  bottom: -6px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: linear-gradient(90deg,var(--primary),var(--secondary));
+  transition: 0.3s ease;
+}
+
+.nav-link:hover::after {
+  width: 100%;
+}
+
+.nav-link:hover {
+  color: var(--secondary) !important;
+}
+
+/* ================= SEARCH ================= */
+.search-box {
+  background: var(--glass);
+  border: 1px solid var(--border);
+  border-radius: 50px;
+  overflow: hidden;
+}
+
+.search-box input {
+  background: transparent;
+  border: none;
+  color: var(--text-light);
+}
+
+.search-box input::placeholder {
+  color: #cbd5f5;
+}
+
+.search-box button {
+  background: linear-gradient(135deg,var(--primary),var(--secondary));
+  border: none;
+  color: #fff;
+}
+
+/* ================= PROFILE BUTTON ================= */
+.profile-btn {
+  background: var(--glass);
+  border: 1px solid var(--border);
+  color: var(--text-light);
+}
+
+.profile-btn:hover {
+  background: linear-gradient(135deg,var(--primary),var(--secondary));
+  color: #fff;
+}
+
+@media(max-width:991px){
+  .search-box{margin-top:15px}
+}
+  </style>
+</head>
+
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-dark sticky-top py-3">
+  <div class="container">
+
+    <!-- Brand -->
+    <a class="navbar-brand d-flex align-items-center" href="#">
+      <i class="fa-solid fa-popcorn text-warning fs-3 me-2"></i>
+      <span class="fw-bold fs-4 apple-text">Apple</span>
+<span class="fw-bold fs-4 cinema-text">Cinema</span>
+    </a>
+
+    <button class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navMenu">
+      <i class="fa-solid fa-bars"></i>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navMenu">
+
+      <!-- Menu -->
+      <ul class="navbar-nav mx-auto mb-2 mb-lg-0 gap-lg-3">
+        <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
+        <li class="nav-item"><a class="nav-link" href="/bollywood">Bollywood</a></li>
+        <li class="nav-item"><a class="nav-link" href="/hollywood">Hollywood</a></li>
+        <li class="nav-item"><a class="nav-link" href="/add-movie">Add Movie</a></li>
+      </ul>
+
+      <!-- Search -->
+      <form class="search-box d-flex align-items-center px-3" action="">
+                <input type="hidden" name="sorting" value="<%= sorting %>">
+        <input class="form-control" type="search" name="search"  value="<%=search%>" placeholder="Search movies..." />
+        <button class="btn" type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
+      </form>
+
+     
+    </div>
+  </div>
+</nav>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
+```
