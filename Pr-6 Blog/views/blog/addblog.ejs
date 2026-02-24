@@ -1,0 +1,789 @@
+<%- include('../header') %>
+
+<style>
+    /* Blog Form - Enhanced CSS */
+    
+    /* Page wrapper background */
+    .page-wrapper {
+        background: linear-gradient(135deg, #667eea0d 0%, #764ba20d 100%);
+        min-height: 100vh;
+    }
+    
+    /* Card styling */
+    .card {
+        border-radius: 20px;
+        border: none;
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.08);
+        background: linear-gradient(145deg, #ffffff, #f8f9fa);
+        overflow: hidden;
+        transition: all 0.4s ease;
+        margin-top: 20px;
+    }
+    
+    .card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 30px 80px rgba(0, 0, 0, 0.12);
+    }
+    
+    .card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 5px;
+        background: linear-gradient(90deg, #00b894 0%, #00cec9 50%, #0984e3 100%);
+    }
+    
+    /* Card body */
+    .card-body {
+        padding: 40px;
+    }
+    
+    /* Form group styling */
+    .form-group {
+        margin-bottom: 25px;
+        transition: all 0.3s ease;
+    }
+    
+    .form-group:hover {
+        transform: translateX(5px);
+    }
+    
+    .form-group label {
+        font-weight: 600;
+        color: #2c3e50;
+        font-size: 1rem;
+        padding-top: 12px;
+        position: relative;
+    }
+    
+    .form-group label::after {
+        content: ':';
+        position: absolute;
+        right: 15px;
+        color: #00b894;
+        font-weight: bold;
+    }
+    
+    /* Input field styling */
+    .form-control {
+        border: 2px solid #e0e0e0;
+        border-radius: 12px;
+        padding: 14px 20px;
+        font-size: 1rem;
+        transition: all 0.3s ease;
+        background: white;
+        box-shadow: 0 3px 15px rgba(0, 0, 0, 0.05);
+    }
+    
+    .form-control:focus {
+        border-color: #00b894;
+        box-shadow: 0 5px 25px rgba(0, 184, 148, 0.15);
+        transform: translateY(-2px);
+        outline: none;
+    }
+    
+    .form-control::placeholder {
+        color: #bdc3c7;
+        opacity: 0.8;
+    }
+    
+    /* Select dropdown styling */
+    select.form-control {
+        appearance: none;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%2300b894' viewBox='0 0 16 16'%3E%3Cpath d='M7.247 11.14L2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z'/%3E%3C/svg%3E");
+        background-repeat: no-repeat;
+        background-position: right 20px center;
+        background-size: 16px;
+        padding-right: 50px;
+        cursor: pointer;
+    }
+    
+    select.form-control option {
+        padding: 10px;
+        background: white;
+        color: #2c3e50;
+    }
+    
+    select.form-control option:checked {
+        background: linear-gradient(135deg, #00b894 0%, #00cec9 100%);
+        color: white;
+        font-weight: 600;
+    }
+    
+    select.form-control option:hover {
+        background: #00b894 !important;
+        color: white;
+    }
+    
+    /* Textarea styling */
+    textarea.form-control {
+        min-height: 150px;
+        resize: vertical;
+        line-height: 1.6;
+        padding: 15px 20px;
+    }
+    
+    textarea.form-control:focus {
+        border-color: #0984e3;
+        box-shadow: 0 5px 25px rgba(9, 132, 227, 0.15);
+    }
+    
+    /* Date input styling */
+    input[type="date"].form-control {
+        color: #2c3e50;
+        position: relative;
+    }
+    
+    input[type="date"].form-control::-webkit-calendar-picker-indicator {
+        background: transparent;
+        color: #00b894;
+        opacity: 0.8;
+        cursor: pointer;
+        width: 20px;
+        height: 20px;
+        position: absolute;
+        right: 15px;
+    }
+    
+    /* File upload styling */
+    .custom-file {
+        position: relative;
+        width: 100%;
+    }
+    
+    .custom-file-input {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        opacity: 0;
+        cursor: pointer;
+        z-index: 2;
+    }
+    
+    .custom-file-label {
+        border: 2px solid #e0e0e0;
+        border-radius: 12px;
+        padding: 14px 20px;
+        font-size: 1rem;
+        background: white;
+        box-shadow: 0 3px 15px rgba(0, 0, 0, 0.05);
+        color: #95a5a6;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        display: block;
+    }
+    
+    .custom-file-input:focus ~ .custom-file-label {
+        border-color: #00b894;
+        box-shadow: 0 5px 25px rgba(0, 184, 148, 0.15);
+        transform: translateY(-2px);
+    }
+    
+    .custom-file-input:hover ~ .custom-file-label {
+        border-color: #0984e3;
+        background-color: rgba(9, 132, 227, 0.05);
+    }
+    
+    .custom-file-label::after {
+        content: 'Browse';
+        background: linear-gradient(135deg, #00b894 0%, #00cec9 100%);
+        color: white;
+        border: none;
+        padding: 8px 20px;
+        border-radius: 8px;
+        margin-left: 10px;
+        float: right;
+        font-weight: 500;
+        transition: all 0.3s ease;
+    }
+    
+    .custom-file-input:hover ~ .custom-file-label::after {
+        background: linear-gradient(135deg, #00cec9 0%, #0984e3 100%);
+        transform: translateY(-2px);
+    }
+    
+    /* Submit button section */
+    .border-top {
+        border-top: 2px dashed #e0e0e0 !important;
+    }
+    
+    .card-body.text-center {
+        padding: 30px !important;
+    }
+    
+    /* Add Blog button */
+    .btn-primary {
+        background: linear-gradient(135deg, #00b894 0%, #00cec9 100%);
+        border: none;
+        color: white;
+        padding: 14px 40px;
+        border-radius: 15px;
+        font-weight: 600;
+        font-size: 1.1rem;
+        transition: all 0.3s ease;
+        position: relative;
+        overflow: hidden;
+        min-width: 180px;
+    }
+    
+    .btn-primary::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+        transition: left 0.5s;
+    }
+    
+    .btn-primary:hover::before {
+        left: 100%;
+    }
+    
+    .btn-primary:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 15px 35px rgba(0, 184, 148, 0.4);
+        color: white;
+    }
+    
+    .btn-primary:active {
+        transform: translateY(-1px);
+    }
+    
+    /* Form validation styling */
+    .form-control:invalid:not(:placeholder-shown) {
+        border-color: #e74c3c;
+        background-color: rgba(231, 76, 60, 0.05);
+    }
+    
+    .form-control:valid:not(:placeholder-shown) {
+        border-color: #00b894;
+        background-color: rgba(0, 184, 148, 0.05);
+    }
+    
+    /* Required field indicator */
+    .form-group label[required]::before {
+        content: '*';
+        color: #e74c3c;
+        margin-right: 5px;
+    }
+    
+    /* Breadcrumb styling */
+    .page-breadcrumb {
+        background: white;
+        border-radius: 15px;
+        padding: 20px;
+        margin: 20px 0;
+        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+    }
+    
+    .breadcrumb {
+        background: none;
+        padding: 0;
+        margin: 0;
+    }
+    
+    .breadcrumb-item a {
+        color: #00b894;
+        text-decoration: none;
+        font-weight: 500;
+        transition: all 0.3s ease;
+    }
+    
+    .breadcrumb-item a:hover {
+        color: #0984e3;
+        text-decoration: underline;
+    }
+    
+    .breadcrumb-item.active {
+        color: #2c3e50;
+        font-weight: 600;
+    }
+    
+    /* Animation for form elements */
+    @keyframes slideInUp {
+        from {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+    
+    .form-group {
+        animation: slideInUp 0.5s ease-out;
+        animation-fill-mode: both;
+    }
+    
+    .form-group:nth-child(1) { animation-delay: 0.1s; }
+    .form-group:nth-child(2) { animation-delay: 0.2s; }
+    .form-group:nth-child(3) { animation-delay: 0.3s; }
+    .form-group:nth-child(4) { animation-delay: 0.4s; }
+    .form-group:nth-child(5) { animation-delay: 0.5s; }
+    .form-group:nth-child(6) { animation-delay: 0.6s; }
+    .form-group:nth-child(7) { animation-delay: 0.7s; }
+    
+    /* Hover effect for entire form */
+    form:hover .form-group {
+        opacity: 0.8;
+    }
+    
+    form:hover .form-group:hover {
+        opacity: 1;
+    }
+    
+    /* Submit button loading state */
+    .btn-primary.loading {
+        pointer-events: none;
+        opacity: 0.8;
+    }
+    
+    .btn-primary.loading::after {
+        content: '';
+        display: inline-block;
+        width: 20px;
+        height: 20px;
+        border: 2px solid rgba(255, 255, 255, 0.3);
+        border-top-color: white;
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+        margin-left: 10px;
+    }
+    
+    @keyframes spin {
+        to { transform: rotate(360deg); }
+    }
+    
+    /* Container fluid spacing */
+    .container-fluid {
+        padding: 20px;
+    }
+    
+    /* Form alignment fix */
+    .text-right.control-label {
+        text-align: right !important;
+    }
+    
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+        .card-body {
+            padding: 25px;
+        }
+        
+        .form-group label {
+            text-align: left !important;
+            padding-bottom: 8px;
+            padding-top: 0;
+        }
+        
+        .form-group label::after {
+            display: none;
+        }
+        
+        .btn-primary {
+            width: 100%;
+            max-width: 300px;
+        }
+        
+        textarea.form-control {
+            min-height: 120px;
+        }
+        
+        .custom-file-label::after {
+            padding: 6px 15px;
+            font-size: 0.9rem;
+        }
+    }
+    
+    @media (max-width: 576px) {
+        .card-body {
+            padding: 20px 15px;
+        }
+        
+        .form-control {
+            padding: 12px 15px;
+        }
+        
+        .btn-primary {
+            padding: 12px 30px;
+            font-size: 1rem;
+        }
+        
+        .custom-file-label {
+            padding: 12px 15px;
+        }
+        
+        select.form-control {
+            background-position: right 15px center;
+            padding-right: 40px;
+        }
+    }
+    
+    /* Image preview styling */
+    .image-preview {
+        margin-top: 15px;
+        text-align: center;
+        display: none;
+    }
+    
+    .preview-image {
+        max-width: 150px;
+        max-height: 150px;
+        border-radius: 10px;
+        border: 3px solid white;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        transition: all 0.3s ease;
+    }
+    
+    .preview-image:hover {
+        transform: scale(1.05);
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+    }
+    
+    /* Character counter */
+    .char-counter {
+        text-align: right;
+        font-size: 0.85rem;
+        color: #7f8c8d;
+        margin-top: 5px;
+        display: none;
+    }
+    
+    .char-counter.near-limit {
+        color: #f39c12;
+        font-weight: 500;
+    }
+    
+    .char-counter.over-limit {
+        color: #e74c3c;
+        font-weight: 600;
+    }
+    
+    /* Helper text styling */
+    .form-text {
+        font-size: 0.85rem;
+        color: #7f8c8d;
+        margin-top: 5px;
+        font-style: italic;
+        display: none;
+    }
+    
+    /* Back link styling */
+    .btn-link {
+        color: #00b894;
+        text-decoration: none;
+        font-weight: 500;
+        transition: all 0.3s ease;
+    }
+    
+    .btn-link:hover {
+        color: #0984e3;
+        text-decoration: underline;
+    }
+    
+    /* Alert messages */
+    .alert {
+        border-radius: 12px;
+        border: none;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        margin-bottom: 25px;
+        animation: slideInUp 0.5s ease-out;
+        display: none;
+    }
+    
+    .alert-success {
+        background: linear-gradient(135deg, #00b894 0%, #00cec9 100%);
+        color: white;
+    }
+    
+    .alert-danger {
+        background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+        color: white;
+    }
+    
+    /* Focus states */
+    .form-control:focus {
+        animation: pulse 0.3s ease;
+    }
+    
+    @keyframes pulse {
+        0% { box-shadow: 0 0 0 0 rgba(0, 184, 148, 0.4); }
+        70% { box-shadow: 0 0 0 10px rgba(0, 184, 148, 0); }
+        100% { box-shadow: 0 0 0 0 rgba(0, 184, 148, 0); }
+    }
+    
+    /* File upload hover effect */
+    .custom-file-label:hover {
+        background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    }
+    
+    /* Button icons */
+    .btn-primary i {
+        margin-right: 8px;
+    }
+    
+    /* Form header */
+    .page-title {
+        font-weight: 700;
+        color: #2c3e50;
+        position: relative;
+        padding-bottom: 10px;
+    }
+    
+    .page-title::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 60px;
+        height: 3px;
+        background: linear-gradient(90deg, #00b894, #0984e3);
+        border-radius: 2px;
+    }
+    
+    /* Form section divider */
+    .form-divider {
+        height: 1px;
+        background: linear-gradient(90deg, transparent, #00b894, transparent);
+        margin: 30px 0;
+        border: none;
+    }
+    
+    /* Optional field styling */
+    .form-control:optional {
+        background-color: #f8f9fa;
+    }
+    
+    /* Success state for validated fields */
+    .form-control.is-valid {
+        border-color: #00b894;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%2300b894' viewBox='0 0 16 16'%3E%3Cpath d='M12.736 3.97a.733.733 0 0 1 1.047 0c.286.289.29.756.01 1.05L7.88 12.01a.733.733 0 0 1-1.065.02L3.217 8.384a.757.757 0 0 1 0-1.06.733.733 0 0 1 1.047 0l3.052 3.093 5.4-6.425a.247.247 0 0 1 .02-.022z'/%3E%3C/svg%3E");
+        background-repeat: no-repeat;
+        background-position: right 20px center;
+        background-size: 16px;
+        padding-right: 50px;
+    }
+    
+    /* Error state for invalid fields */
+    .form-control.is-invalid {
+        border-color: #e74c3c;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%23e74c3c' viewBox='0 0 16 16'%3E%3Cpath d='M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z'/%3E%3Cpath d='M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z'/%3E%3C/svg%3E");
+        background-repeat: no-repeat;
+        background-position: right 20px center;
+        background-size: 16px;
+        padding-right: 50px;
+    }
+    
+    /* Custom scrollbar for textarea */
+    textarea.form-control::-webkit-scrollbar {
+        width: 8px;
+    }
+    
+    textarea.form-control::-webkit-scrollbar-track {
+        background: #f1f1f1;
+        border-radius: 4px;
+    }
+    
+    textarea.form-control::-webkit-scrollbar-thumb {
+        background: linear-gradient(135deg, #00b894 0%, #00cec9 100%);
+        border-radius: 4px;
+    }
+    
+    textarea.form-control::-webkit-scrollbar-thumb:hover {
+        background: linear-gradient(135deg, #00cec9 0%, #0984e3 100%);
+    }
+    
+    /* Focus ring for accessibility */
+    .form-control:focus-visible {
+        outline: 2px solid #0984e3;
+        outline-offset: 2px;
+    }
+    
+    /* Print styles */
+    @media print {
+        .card {
+            box-shadow: none;
+            border: 1px solid #ddd;
+        }
+        
+        .btn-primary {
+            display: none;
+        }
+        
+        .custom-file {
+            display: none;
+        }
+    }
+</style>
+
+<div class="page-wrapper">
+
+  <!-- Breadcrumb -->
+  <div class="page-breadcrumb">
+    <div class="row">
+      <div class="col-12 d-flex no-block align-items-center">
+        <h4 class="page-title">Add Blog</h4>
+        <div class="ml-auto text-right">
+          <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+              <li class="breadcrumb-item"><a href="/">Home</a></li>
+              <li class="breadcrumb-item active" aria-current="page">Add Blog</li>
+            </ol>
+          </nav>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Container -->
+  <div class="container-fluid">
+
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card">
+
+          <form class="form-horizontal"
+                action="/blog/add-blog"
+                method="post"
+                enctype="multipart/form-data">
+
+            <div class="card-body">
+
+              <!-- Author Name -->
+              <div class="form-group row">
+                <label class="col-sm-3 text-right control-label col-form-label">
+                  Author Name
+                </label>
+                <div class="col-sm-9">
+                  <input type="text"
+                         class="form-control"
+                         name="name"
+                         placeholder="Author name"
+                         required>
+                </div>
+              </div>
+
+              <!-- Blog Title -->
+              <div class="form-group row">
+                <label class="col-sm-3 text-right control-label col-form-label">
+                  Title
+                </label>
+                <div class="col-sm-9">
+                  <input type="text"
+                         class="form-control"
+                         name="title"
+                         placeholder="Blog Title"
+                         required>
+                </div>
+              </div>
+
+              <!-- Publish Date -->
+              <div class="form-group row">
+                <label class="col-sm-3 text-right control-label col-form-label">
+                  Publish Date
+                </label>
+                <div class="col-sm-9">
+                  <input type="date"
+                         class="form-control"
+                         name="publishDate"
+                         value="<%= new Date().toISOString().split('T')[0] %>">
+                </div>
+              </div>
+
+              <!-- Category -->
+              <div class="form-group row">
+                <label class="col-sm-3 text-right control-label col-form-label">
+                  Category
+                </label>
+                <div class="col-sm-9">
+                  <select class="form-control" name="category" required>
+                    <option value="">Select Category</option>
+                    <option value="Technology">Technology</option>
+                    <option value="Programming">Programming</option>
+                    <option value="Travel">Travel</option>
+                    <option value="Food">Food</option>
+                    <option value="Education">Education</option>
+                    <option value="Business">Business</option>
+                    <option value="Games">Games</option>
+                    <option value="Movie">Movie</option>
+                  </select>
+                </div>
+              </div>
+
+              <!-- Status -->
+              <div class="form-group row">
+                <label class="col-sm-3 text-right control-label col-form-label">
+                  Status
+                </label>
+                <div class="col-sm-9">
+                  <select class="form-control" name="status" required>
+                    <option value="">Select Status</option>
+                    <option value="Draft">Draft</option>
+                    <option value="Published">Published</option>
+                  </select>
+                </div>
+              </div>
+
+              <!-- Content -->
+              <div class="form-group row">
+                <label class="col-sm-3 text-right control-label col-form-label">
+                  Content
+                </label>
+                <div class="col-sm-9">
+                  <textarea class="form-control"
+                            name="content"
+                            rows="5"
+                            placeholder="Write blog content..."
+                            required></textarea>
+                </div>
+              </div>
+
+              <!-- Author Image -->
+              <div class="form-group row">
+                <label class="col-sm-3 text-right control-label col-form-label">
+                  Author Image
+                </label>
+                <div class="col-sm-9">
+                  <div class="custom-file">
+                    <input type="file"
+                           class="custom-file-input"
+                           name="authorImage"
+                           accept="image/*">
+                    <label class="custom-file-label">
+                      Choose file...
+                    </label>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+
+            <!-- Submit -->
+            <div class="border-top">
+              <div class="card-body text-center">
+                <button type="submit" class="btn btn-primary px-5">
+                  Add Blog
+                </button>
+              </div>
+            </div>
+
+          </form>
+
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<%- include('../footer') %>

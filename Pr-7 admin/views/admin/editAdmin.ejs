@@ -1,0 +1,769 @@
+<%- include('../header')%>
+<style>
+    /* Update Admin Form - Enhanced CSS */
+    
+    /* Page wrapper background */
+    .page-wrapper {
+        background: linear-gradient(135deg, #667eea0d 0%, #764ba20d 100%);
+        min-height: 100vh;
+    }
+    
+    /* Card styling */
+    .card {
+        border-radius: 20px;
+        border: none;
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.08);
+        background: linear-gradient(145deg, #ffffff, #f8f9fa);
+        overflow: hidden;
+        transition: all 0.4s ease;
+        margin-top: 20px;
+    }
+    
+    .card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 30px 80px rgba(0, 0, 0, 0.12);
+    }
+    
+    .card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 5px;
+        background: linear-gradient(90deg, #667eea 0%, #764ba2 50%, #2ecc71 100%);
+    }
+    
+    /* Card body */
+    .card-body {
+        padding: 40px;
+    }
+    
+    /* Form title */
+    .card-title {
+        text-align: center;
+        font-size: 2.2rem;
+        font-weight: 800;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        margin-bottom: 30px;
+        position: relative;
+        padding-bottom: 20px;
+    }
+    
+    .card-title::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 100px;
+        height: 4px;
+        background: linear-gradient(90deg, #667eea, #2ecc71);
+        border-radius: 2px;
+    }
+    
+    .card-title.yext-center {
+        font-size: 2.2rem !important;
+    }
+    
+    /* Form group styling */
+    .form-group {
+        margin-bottom: 25px;
+        transition: all 0.3s ease;
+    }
+    
+    .form-group:hover {
+        transform: translateX(5px);
+    }
+    
+    .form-group label {
+        font-weight: 600;
+        color: #2c3e50;
+        font-size: 1rem;
+        padding-top: 12px;
+        position: relative;
+    }
+    
+    .form-group label::after {
+        content: ':';
+        position: absolute;
+        right: 15px;
+        color: #667eea;
+        font-weight: bold;
+    }
+    
+    /* Input field styling */
+    .form-control {
+        border: 2px solid #e0e0e0;
+        border-radius: 12px;
+        padding: 14px 20px;
+        font-size: 1rem;
+        transition: all 0.3s ease;
+        background: white;
+        box-shadow: 0 3px 15px rgba(0, 0, 0, 0.05);
+    }
+    
+    .form-control:focus {
+        border-color: #667eea;
+        box-shadow: 0 5px 25px rgba(102, 126, 234, 0.15);
+        transform: translateY(-2px);
+        outline: none;
+    }
+    
+    .form-control:disabled {
+        background-color: #f8f9fa;
+        opacity: 0.7;
+        cursor: not-allowed;
+    }
+    
+    .form-control::placeholder {
+        color: #bdc3c7;
+        opacity: 0.8;
+    }
+    
+    /* Radio button styling */
+    .custom-control.custom-radio {
+        position: relative;
+        margin: 5px 0;
+    }
+    
+    .custom-control-input {
+        position: absolute;
+        left: 0;
+        z-index: -1;
+        width: 1rem;
+        height: 1.25rem;
+        opacity: 0;
+    }
+    
+    .custom-control-label {
+        position: relative;
+        margin-bottom: 0;
+        padding-left: 35px;
+        cursor: pointer;
+        font-weight: 500;
+        color: #2c3e50;
+        display: flex;
+        align-items: center;
+        transition: all 0.3s ease;
+    }
+    
+    .custom-control-label:hover {
+        color: #667eea;
+        transform: translateX(5px);
+    }
+    
+    .custom-control-label::before {
+        content: '';
+        position: absolute;
+        left: 0;
+        display: block;
+        width: 24px;
+        height: 24px;
+        pointer-events: none;
+        background-color: #fff;
+        border: 2px solid #bdc3c7;
+        border-radius: 50%;
+        transition: all 0.3s ease;
+    }
+    
+    .custom-control-label::after {
+        content: '';
+        position: absolute;
+        left: 6px;
+        top: 6px;
+        display: block;
+        width: 12px;
+        height: 12px;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        border-radius: 50%;
+        transform: scale(0);
+        transition: all 0.3s ease;
+    }
+    
+    .custom-control-input:checked ~ .custom-control-label::before {
+        border-color: #667eea;
+        background-color: rgba(102, 126, 234, 0.1);
+    }
+    
+    .custom-control-input:checked ~ .custom-control-label::after {
+        transform: scale(1);
+    }
+    
+    .custom-control-input:checked ~ .custom-control-label {
+        color: #667eea;
+        font-weight: 600;
+    }
+    
+    /* File input styling */
+    .form-control[type="file"] {
+        padding: 11px 20px;
+        cursor: pointer;
+        position: relative;
+        margin-bottom: 15px;
+    }
+    
+    .form-control[type="file"]::file-selector-button {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        border: none;
+        padding: 8px 20px;
+        border-radius: 8px;
+        margin-right: 15px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+    
+    .form-control[type="file"]::file-selector-button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+    }
+    
+    /* Profile image preview */
+    .form-group img {
+        border-radius: 15px;
+        border: 3px solid white;
+        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+        transition: all 0.3s ease;
+        margin-top: 10px;
+    }
+    
+    .form-group img:hover {
+        transform: scale(1.05);
+        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+    }
+    
+    /* Submit button section */
+    .border-top {
+        border-top: 2px dashed #e0e0e0 !important;
+    }
+    
+    .card-body.text-center {
+        padding: 30px !important;
+    }
+    
+    /* Update button */
+    .btn-primary {
+        background: linear-gradient(135deg, #2ecc71 0%, #27ae60 100%);
+        border: none;
+        color: white;
+        padding: 14px 40px;
+        border-radius: 15px;
+        font-weight: 600;
+        font-size: 1.1rem;
+        transition: all 0.3s ease;
+        position: relative;
+        overflow: hidden;
+        min-width: 180px;
+    }
+    
+    .btn-primary::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+        transition: left 0.5s;
+    }
+    
+    .btn-primary:hover::before {
+        left: 100%;
+    }
+    
+    .btn-primary:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 15px 35px rgba(46, 204, 113, 0.4);
+        color: white;
+    }
+    
+    .btn-primary:active {
+        transform: translateY(-1px);
+    }
+    
+    /* Form validation styling */
+    .form-control:invalid:not(:placeholder-shown) {
+        border-color: #e74c3c;
+        background-color: rgba(231, 76, 60, 0.05);
+    }
+    
+    .form-control:valid:not(:placeholder-shown) {
+        border-color: #2ecc71;
+        background-color: rgba(46, 204, 113, 0.05);
+    }
+    
+    /* Form layout spacing */
+    .row {
+        margin-bottom: 10px;
+    }
+    
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+        .card-body {
+            padding: 25px;
+        }
+        
+        .card-title {
+            font-size: 1.8rem;
+        }
+        
+        .form-group label {
+            text-align: left !important;
+            padding-bottom: 8px;
+            padding-top: 0;
+        }
+        
+        .form-group label::after {
+            display: none;
+        }
+        
+        .col-md-9.d-flex {
+            flex-direction: column;
+            align-items: flex-start;
+        }
+        
+        .custom-control.custom-radio {
+            margin: 8px 0;
+        }
+        
+        .btn-primary {
+            width: 100%;
+            max-width: 300px;
+        }
+        
+        .form-group img {
+            width: 80px !important;
+            height: 80px !important;
+        }
+    }
+    
+    @media (max-width: 576px) {
+        .card-body {
+            padding: 20px 15px;
+        }
+        
+        .card-title {
+            font-size: 1.6rem;
+        }
+        
+        .form-control {
+            padding: 12px 15px;
+        }
+        
+        .btn-primary {
+            padding: 12px 30px;
+            font-size: 1rem;
+        }
+        
+        .form-group img {
+            width: 70px !important;
+            height: 70px !important;
+        }
+    }
+    
+    /* Animation for form elements */
+    @keyframes slideInUp {
+        from {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+    
+    .form-group {
+        animation: slideInUp 0.5s ease-out;
+        animation-fill-mode: both;
+    }
+    
+    .form-group:nth-child(1) { animation-delay: 0.1s; }
+    .form-group:nth-child(2) { animation-delay: 0.2s; }
+    .form-group:nth-child(3) { animation-delay: 0.3s; }
+    .form-group:nth-child(4) { animation-delay: 0.4s; }
+    .form-group:nth-child(5) { animation-delay: 0.5s; }
+    .form-group:nth-child(6) { animation-delay: 0.6s; }
+    .form-group:nth-child(7) { animation-delay: 0.7s; }
+    
+    /* Focus effect for radio buttons */
+    .custom-control-input:focus ~ .custom-control-label::before {
+        box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.2);
+    }
+    
+    /* Password field specific */
+    input[type="password"] {
+        letter-spacing: 2px;
+    }
+    
+    /* File input preview effect */
+    .form-control[type="file"]:hover {
+        border-color: #667eea;
+        background-color: rgba(102, 126, 234, 0.05);
+    }
+    
+    /* Breadcrumb styling */
+    .page-breadcrumb {
+        background: white;
+        border-radius: 15px;
+        padding: 20px;
+        margin: 20px 0;
+        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+    }
+    
+    .breadcrumb {
+        background: none;
+        padding: 0;
+        margin: 0;
+    }
+    
+    .breadcrumb-item a {
+        color: #667eea;
+        text-decoration: none;
+        font-weight: 500;
+        transition: all 0.3s ease;
+    }
+    
+    .breadcrumb-item a:hover {
+        color: #764ba2;
+        text-decoration: underline;
+    }
+    
+    .breadcrumb-item.active {
+        color: #2c3e50;
+        font-weight: 600;
+    }
+    
+    /* Container fluid spacing */
+    .container-fluid {
+        padding: 20px;
+    }
+    
+    /* Form alignment fix */
+    .text-right.control-label {
+        text-align: right !important;
+    }
+    
+    @media (max-width: 768px) {
+        .text-right.control-label {
+            text-align: left !important;
+        }
+    }
+    
+    /* Additional gender option */
+    .custom-control.custom-radio:last-child {
+        margin-right: 0;
+    }
+    
+    /* Hover effect for entire form */
+    form:hover .form-group {
+        opacity: 0.8;
+    }
+    
+    form:hover .form-group:hover {
+        opacity: 1;
+    }
+    
+    /* Submit button loading state */
+    .btn-primary.loading {
+        pointer-events: none;
+        opacity: 0.8;
+    }
+    
+    .btn-primary.loading::after {
+        content: '';
+        display: inline-block;
+        width: 20px;
+        height: 20px;
+        border: 2px solid rgba(255, 255, 255, 0.3);
+        border-top-color: white;
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+        margin-left: 10px;
+    }
+    
+    @keyframes spin {
+        to { transform: rotate(360deg); }
+    }
+    
+    /* Current profile image styling */
+    .current-image-container {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        margin-top: 10px;
+    }
+    
+    .current-image-label {
+        font-size: 0.9rem;
+        color: #7f8c8d;
+        font-weight: 500;
+    }
+    
+    /* Field info styling */
+    .field-info {
+        font-size: 0.85rem;
+        color: #7f8c8d;
+        margin-top: 5px;
+        font-style: italic;
+    }
+    
+    /* Password reset link */
+    .password-reset-link {
+        display: inline-block;
+        margin-top: 10px;
+        color: #667eea;
+        text-decoration: none;
+        font-size: 0.9rem;
+        font-weight: 500;
+        transition: all 0.3s ease;
+    }
+    
+    .password-reset-link:hover {
+        color: #764ba2;
+        text-decoration: underline;
+    }
+</style>
+
+<!-- ============================================================== -->
+<!-- Page wrapper  -->
+<!-- ============================================================== -->
+<div class="page-wrapper">
+    <!-- ============================================================== -->
+    <!-- Bread crumb and right sidebar toggle -->
+    <!-- ============================================================== -->
+    <div class="page-breadcrumb">
+        <div class="row">
+            <div class="col-12 d-flex no-block align-items-center">
+                <h4 class="page-title">Form Basic</h4>
+                <div class="ml-auto text-right">
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="/">Home</a></li>
+                            <li class="breadcrumb-item"><a href="/admin/view-admin">Back</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">Update Admin</li>
+                        </ol>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- ============================================================== -->
+    <!-- End Bread crumb and right sidebar toggle -->
+    <!-- ============================================================== -->
+    <!-- ============================================================== -->
+    <!-- Container fluid  -->
+    <!-- ============================================================== -->
+    <div class="container-fluid">
+        <!-- ============================================================== -->
+        <!-- Start Page Content -->
+        <!-- ============================================================== -->
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <form class="form-horizontal" action="/admin/update-admin/<%=admin.id%>" method="post" enctype="multipart/form-data">
+                        <div class="card-body">
+                            <h4 class="card-title yext-center">Update Admin</h4>
+                            <div class="form-group row">
+                                <label for="fname" class="col-sm-3 text-right control-label col-form-label">First Name</label>
+                                <div class="col-sm-9">
+                                    <input type="text" class="form-control" value="<%=admin.firstname%>" id="fname" name="firstname" placeholder="First Name Here">
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="lname" class="col-sm-3 text-right control-label col-form-label">Last Name</label>
+                                <div class="col-sm-9">
+                                    <input type="text" class="form-control" value="<%=admin.lastname%>" id="lname" name="lastname" placeholder="Last Name Here">
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="lname" class="col-sm-3 text-right control-label col-form-label">Email</label>
+                                <div class="col-sm-9">
+                                    <input type="text" class="form-control" value="<%=admin.email%>" id="lname" name="email" placeholder="Email Here">
+                                    <div class="field-info">Email cannot be changed</div>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="lname" class="col-sm-3 text-right control-label col-form-label">Password</label>
+                                <div class="col-sm-9">
+                                    <input type="password" disabled class="form-control" value="<%=admin.password%>" id="lname" name="password" placeholder="Password Here">
+                                    <a href="/admin/reset-password/<%=admin.id%>" class="password-reset-link">
+                                        <i class="fas fa-key me-1"></i>Reset Password
+                                    </a>
+                                </div>
+                            </div>
+                             <div class="form-group row">
+                            <label class="col-sm-3 text-right control-label col-form-label">Gender</label>
+                            <div class="col-md-9 d-flex">
+                                <div class="custom-control custom-radio mx-3">
+                                    <input type="radio" class="custom-control-input" name="gender" id="customControlValidation1" <%=admin.gender =="Male"?"checked":""%> value="Male" required>
+                                    <label class="custom-control-label" for="customControlValidation1">Male</label>
+                                </div>
+                                 <div class="custom-control custom-radio">
+                                    <input type="radio" class="custom-control-input" name="gender" id="customControlValidation2"<%=admin.gender =="Female"?"checked":""%> value="Female"  required>
+                                    <label class="custom-control-label" for="customControlValidation2">Female</label>
+                                </div>
+                                 
+                            </div>
+                        </div>
+                            <div class="form-group row">
+                                <label for="cono1" class="col-sm-3 text-right control-label col-form-label">Contact No</label>
+                                <div class="col-sm-9">
+                                    <input type="text" class="form-control" id="cono1" value="<%=admin.contactNo%>" name="contactNo" placeholder="Contact No Here">
+                                </div>
+                            </div>
+
+                             <div class="form-group row">
+                                <label for="cono1" class="col-sm-3 text-right control-label col-form-label">Profile Image</label>
+                                <div class="col-sm-9">
+                                    <input type="file" class="form-control" id="cono1" name="profileImage" placeholder="Contact No Here">
+                                    <div class="current-image-container">
+                                        <span class="current-image-label">Current Image:</span>
+                                        <img src="<%=admin.profileImage%>" height="100" width="100" alt="<%=admin.firstname%> <%=admin.lastname%>">
+                                    </div>
+                                    <div class="field-info">Leave empty to keep current image</div>
+                                </div>
+                            </div>
+                          
+                        </div>
+                        <div class="border-top text-center">
+                            <div class="card-body ">
+                                <button type="submit" class="btn btn-primary">Update Admin</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+              
+
+            </div>
+        
+        </div>
+        <!-- editor -->
+       
+        <!-- ============================================================== -->
+        <!-- End PAge Content -->
+        <!-- ============================================================== -->
+        <!-- ============================================================== -->
+        <!-- Right sidebar -->
+        <!-- ============================================================== -->
+        <!-- .right-sidebar -->
+        <!-- ============================================================== -->
+        <!-- End Right sidebar -->
+        <!-- ============================================================== -->
+    </div>
+    <!-- ============================================================== -->
+    <!-- End Container fluid  -->
+    <!-- ============================================================== -->
+   <%- include('../footer')%>
+
+<script>
+    // Add JavaScript for enhanced interactions
+    document.addEventListener('DOMContentLoaded', function() {
+        // Add loading state to submit button
+        const submitBtn = document.querySelector('button[type="submit"]');
+        const form = document.querySelector('form');
+        
+        if (form && submitBtn) {
+            form.addEventListener('submit', function() {
+                submitBtn.classList.add('loading');
+                submitBtn.innerHTML = 'Updating...';
+            });
+        }
+        
+        // Add focus effects to form controls
+        const formControls = document.querySelectorAll('.form-control');
+        formControls.forEach(control => {
+            control.addEventListener('focus', function() {
+                this.parentElement.style.transform = 'translateY(-2px)';
+            });
+            
+            control.addEventListener('blur', function() {
+                this.parentElement.style.transform = 'translateY(0)';
+            });
+        });
+        
+        // Add validation styling
+        const inputs = form.querySelectorAll('input[required]');
+        inputs.forEach(input => {
+            input.addEventListener('blur', function() {
+                if (this.value.trim() === '') {
+                    this.classList.add('is-invalid');
+                } else {
+                    this.classList.remove('is-invalid');
+                    this.classList.add('is-valid');
+                }
+            });
+        });
+        
+        // Email validation
+        const emailInput = document.querySelector('input[name="email"]');
+        if (emailInput) {
+            emailInput.addEventListener('blur', function() {
+                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                if (!emailRegex.test(this.value)) {
+                    this.classList.add('is-invalid');
+                } else {
+                    this.classList.remove('is-invalid');
+                    this.classList.add('is-valid');
+                }
+            });
+        }
+        
+        // Profile image preview for new upload
+        const fileInput = document.querySelector('input[type="file"]');
+        const currentImage = document.querySelector('.form-group img');
+        
+        if (fileInput && currentImage) {
+            fileInput.addEventListener('change', function() {
+                if (this.files && this.files[0]) {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        currentImage.src = e.target.result;
+                    };
+                    reader.readAsDataURL(this.files[0]);
+                }
+            });
+        }
+        
+        // Add hover effect to current image
+        if (currentImage) {
+            currentImage.addEventListener('mouseenter', function() {
+                this.style.transform = 'scale(1.1)';
+            });
+            
+            currentImage.addEventListener('mouseleave', function() {
+                this.style.transform = 'scale(1)';
+            });
+        }
+        
+        // Show confirmation before leaving if form has changes
+        let formChanged = false;
+        const formInputs = form.querySelectorAll('input, select, textarea');
+        
+        formInputs.forEach(input => {
+            input.addEventListener('input', function() {
+                formChanged = true;
+            });
+            
+            input.addEventListener('change', function() {
+                formChanged = true;
+            });
+        });
+        
+        window.addEventListener('beforeunload', function(e) {
+            if (formChanged) {
+                e.preventDefault();
+                e.returnValue = 'You have unsaved changes. Are you sure you want to leave?';
+            }
+        });
+        
+        // Reset form changed flag on submit
+        form.addEventListener('submit', function() {
+            formChanged = false;
+        });
+    });
+</script>   

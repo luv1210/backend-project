@@ -1,0 +1,608 @@
+<%- include('../header')%>
+
+<style>
+/* Category Form - Enhanced CSS */
+
+/* Page wrapper background */
+.page-wrapper {
+    background-color: #f8fafc;
+    background-image: 
+        linear-gradient(to right, #e2e8f0 1px, transparent 1px),
+        linear-gradient(to bottom, #e2e8f0 1px, transparent 1px);
+    background-size: 40px 40px;
+}
+
+/* Card styling */
+.card {
+    border-radius: 20px;
+    border: none;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.08);
+    background: linear-gradient(145deg, #ffffff, #f8f9fa);
+    overflow: hidden;
+    transition: all 0.4s ease;
+    margin-top: 20px;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 30px 80px rgba(0, 0, 0, 0.12);
+}
+
+.card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 5px;
+    background: linear-gradient(90deg, #8e44ad 0%, #9b59b6 50%, #3498db 100%);
+}
+
+/* Card body */
+.card-body {
+    padding: 40px;
+}
+
+/* Form title */
+.card-title {
+    text-align: center;
+    font-size: 2.2rem;
+    font-weight: 800;
+    background: linear-gradient(135deg, #8e44ad 0%, #3498db 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 30px;
+    position: relative;
+    padding-bottom: 20px;
+}
+
+.card-title::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100px;
+    height: 4px;
+    background: linear-gradient(90deg, #8e44ad, #3498db);
+    border-radius: 2px;
+}
+
+.card-title.yext-center {
+    font-size: 2.2rem !important;
+}
+
+/* Form group styling */
+.form-group {
+    margin-bottom: 30px;
+    transition: all 0.3s ease;
+}
+
+.form-group:hover {
+    transform: translateX(5px);
+}
+
+.form-group label {
+    font-weight: 600;
+    color: #2c3e50;
+    font-size: 1rem;
+    padding-top: 12px;
+    position: relative;
+}
+
+.form-group label::after {
+    content: '';
+    position: absolute;
+    right: 15px;
+    color: #8e44ad;
+    font-weight: bold;
+}
+
+/* Input field styling */
+.form-control {
+    border: 2px solid #e0e0e0;
+    border-radius: 12px;
+    padding: 14px 20px;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    background: white;
+    box-shadow: 0 3px 15px rgba(0, 0, 0, 0.05);
+}
+
+.form-control:focus {
+    border-color: #8e44ad;
+    box-shadow: 0 5px 25px rgba(142, 68, 173, 0.15);
+    transform: translateY(-2px);
+    outline: none;
+}
+
+.form-control::placeholder {
+    color: #bdc3c7;
+    opacity: 0.8;
+}
+
+/* File input styling */
+.form-control[type="file"] {
+    padding: 11px 20px;
+    cursor: pointer;
+    position: relative;
+}
+
+.form-control[type="file"]::file-selector-button {
+    background: linear-gradient(135deg, #8e44ad 0%, #9b59b6 100%);
+    color: white;
+    border: none;
+    padding: 8px 20px;
+    border-radius: 8px;
+    margin-right: 15px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.form-control[type="file"]::file-selector-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(142, 68, 173, 0.3);
+}
+
+/* Image preview area */
+.image-preview-container {
+    margin-top: 15px;
+    text-align: center;
+}
+
+.image-preview {
+    width: 150px;
+    height: 150px;
+    border-radius: 15px;
+    border: 3px solid white;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+    object-fit: cover;
+    transition: all 0.3s ease;
+    display: none;
+}
+
+.image-preview:hover {
+    transform: scale(1.05);
+    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.15);
+}
+
+.preview-label {
+    font-size: 0.9rem;
+    color: #7f8c8d;
+    margin-top: 10px;
+    font-weight: 500;
+}
+
+/* File upload instructions */
+.upload-info {
+    font-size: 0.85rem;
+    color: #95a5a6;
+    margin-top: 10px;
+    text-align: center;
+    font-style: italic;
+}
+
+/* Submit button section */
+.border-top {
+    border-top: 2px dashed #e0e0e0 !important;
+}
+
+.card-body.text-center {
+    padding: 30px !important;
+}
+
+/* Submit button */
+.btn-primary {
+    background: linear-gradient(135deg, #8e44ad 0%, #3498db 100%);
+    border: none;
+    color: white;
+    padding: 14px 40px;
+    border-radius: 15px;
+    font-weight: 600;
+    font-size: 1.1rem;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+    min-width: 180px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+.btn-primary::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: left 0.5s;
+}
+
+.btn-primary:hover::before {
+    left: 100%;
+}
+
+.btn-primary:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 15px 35px rgba(142, 68, 173, 0.4);
+    color: white;
+}
+
+.btn-primary:active {
+    transform: translateY(-1px);
+}
+
+/* Form validation styling */
+.form-control:invalid:not(:placeholder-shown) {
+    border-color: #e74c3c;
+    background-color: rgba(231, 76, 60, 0.05);
+}
+
+.form-control:valid:not(:placeholder-shown) {
+    border-color: #27ae60;
+    background-color: rgba(39, 174, 96, 0.05);
+}
+
+/* Required field indicator */
+.form-group label[required]::before {
+    content: '*';
+    color: #e74c3c;
+    margin-right: 5px;
+}
+
+/* Breadcrumb styling */
+.page-breadcrumb {
+    background: white;
+    border-radius: 15px;
+    padding: 20px;
+    margin: 20px 0;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+}
+
+.breadcrumb {
+    background: none;
+    padding: 0;
+    margin: 0;
+}
+
+.breadcrumb-item a {
+    color: #8e44ad;
+    text-decoration: none;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.breadcrumb-item a:hover {
+    color: #3498db;
+    text-decoration: underline;
+}
+
+.breadcrumb-item.active {
+    color: #2c3e50;
+    font-weight: 600;
+}
+
+/* Animation for form elements */
+@keyframes slideInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.form-group {
+    animation: slideInUp 0.5s ease-out;
+    animation-fill-mode: both;
+}
+
+.form-group:nth-child(1) { animation-delay: 0.1s; }
+.form-group:nth-child(2) { animation-delay: 0.2s; }
+
+/* Hover effect for entire form */
+form:hover .form-group {
+    opacity: 0.8;
+}
+
+form:hover .form-group:hover {
+    opacity: 1;
+}
+
+/* Submit button loading state */
+.btn-primary.loading {
+    pointer-events: none;
+    opacity: 0.8;
+}
+
+.btn-primary.loading::after {
+    content: '';
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-top-color: white;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin-left: 10px;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+/* Container fluid spacing */
+.container-fluid {
+    padding: 20px;
+}
+
+/* Form alignment fix */
+.text-right.control-label {
+    text-align: right !important;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .card-body {
+        padding: 25px;
+    }
+    
+    .card-title {
+        font-size: 1.8rem;
+    }
+    
+    .form-group label {
+        text-align: left !important;
+        padding-bottom: 8px;
+        padding-top: 0;
+    }
+    
+    .form-group label::after {
+        display: none;
+    }
+    
+    .btn-primary {
+        width: 100%;
+        max-width: 300px;
+    }
+    
+    .image-preview {
+        width: 120px;
+        height: 120px;
+    }
+}
+
+@media (max-width: 576px) {
+    .card-body {
+        padding: 20px 15px;
+    }
+    
+    .card-title {
+        font-size: 1.6rem;
+    }
+    
+    .form-control {
+        padding: 12px 15px;
+    }
+    
+    .btn-primary {
+        padding: 12px 30px;
+        font-size: 1rem;
+    }
+    
+    .image-preview {
+        width: 100px;
+        height: 100px;
+    }
+}
+
+/* File input hover effect */
+.form-control[type="file"]:hover {
+    border-color: #8e44ad;
+    background-color: rgba(142, 68, 173, 0.05);
+}
+
+/* Icon styling for form */
+.form-group label i {
+    margin-right: 10px;
+    color: #8e44ad;
+    width: 20px;
+    text-align: center;
+}
+
+/* Category icon preview */
+.category-icon {
+    font-size: 3rem;
+    color: #8e44ad;
+    margin-bottom: 15px;
+    transition: all 0.3s ease;
+}
+
+.form-group:hover .category-icon {
+    transform: scale(1.1) rotate(5deg);
+    color: #3498db;
+}
+
+/* Back link styling */
+.back-link {
+    display: inline-block;
+    margin-top: 20px;
+    color: #8e44ad;
+    text-decoration: none;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.back-link:hover {
+    color: #3498db;
+    text-decoration: underline;
+    transform: translateX(-5px);
+}
+
+/* Success/Error messages */
+.alert {
+    border-radius: 12px;
+    border: none;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+    margin-bottom: 25px;
+    animation: slideInUp 0.5s ease-out;
+}
+
+.alert-success {
+    background: linear-gradient(135deg, #27ae60 0%, #2ecc71 100%);
+    color: white;
+}
+
+.alert-danger {
+    background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+    color: white;
+}
+
+/* Category color preview */
+.color-preview {
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+    display: inline-block;
+    margin-left: 15px;
+    border: 2px solid white;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+    vertical-align: middle;
+}
+
+/* Form helper text */
+.form-text {
+    font-size: 0.85rem;
+    color: #7f8c8d;
+    margin-top: 8px;
+    font-style: italic;
+}
+
+/* Drag and drop area */
+.drag-drop-area {
+    border: 2px dashed #8e44ad;
+    border-radius: 15px;
+    padding: 40px 20px;
+    text-align: center;
+    background: rgba(142, 68, 173, 0.05);
+    transition: all 0.3s ease;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+.drag-drop-area:hover {
+    background: rgba(142, 68, 173, 0.1);
+    border-color: #3498db;
+}
+
+.drag-drop-area.dragover {
+    background: rgba(142, 68, 173, 0.15);
+    border-color: #27ae60;
+    transform: scale(1.02);
+}
+
+.drag-drop-text {
+    color: #8e44ad;
+    font-weight: 500;
+    margin-bottom: 10px;
+}
+
+.drag-drop-hint {
+    font-size: 0.85rem;
+    color: #95a5a6;
+}
+.page-wrapper {
+    background: linear-gradient(135deg, #f0f4ff 0%, #f8f0ff 100%);
+}
+</style>
+        <!-- ============================================================== -->
+        <!-- Page wrapper  -->
+        <!-- ============================================================== -->
+        <div class="page-wrapper">
+            <!-- ============================================================== -->
+            <!-- Bread crumb and right sidebar toggle -->
+            <!-- ============================================================== -->
+            <div class="page-breadcrumb">
+                <div class="row">
+                    <div class="col-12 d-flex no-block align-items-center">
+                        <h4 class="page-title">Form Basic</h4>
+                        <div class="ml-auto text-right">
+                            <nav aria-label="breadcrumb">
+                                <ol class="breadcrumb">
+                                    <li class="breadcrumb-item"><a href="/">Home</a></li>
+                                    <li class="breadcrumb-item active" aria-current="page">add admin</li>
+                                </ol>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- ============================================================== -->
+            <!-- End Bread crumb and right sidebar toggle -->
+            <!-- ============================================================== -->
+            <!-- ============================================================== -->
+            <!-- Container fluid  -->
+            <!-- ============================================================== -->
+            <div class="container-fluid">
+                <!-- ============================================================== -->
+                <!-- Start Page Content -->
+                <!-- ============================================================== -->
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="card">
+                            <form class="form-horizontal" action="/category/add-category" method="post" enctype="multipart/form-data">
+                                <div class="card-body">
+                                    <h4 class="card-title yext-center">Add Admin</h4>
+                                    <div class="form-group row">
+                                        <label for="fname" class="col-sm-3 text-right control-label col-form-label">Category</label>
+                                        <div class="col-sm-9">
+                                            <input type="text" class="form-control" id="fname" name="category" placeholder="Category Name Here">
+                                        </div>
+                                    </div>
+                            
+                                     <div class="form-group row">
+                                        <label for="cono1" class="col-sm-3 text-right control-label col-form-label">Category Image</label>
+                                        <div class="col-sm-9">
+                                            <input type="file" class="form-control" id="cono1" name="categoryImage">
+                                        </div>
+                                    </div>
+                                  
+                                </div>
+                                <div class="border-top text-center">
+                                    <div class="card-body ">
+                                        <button type="submit" class="btn btn-primary">Submit</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+
+                      
+
+                    </div>
+                
+                </div>
+                <!-- editor -->
+               
+                <!-- ============================================================== -->
+                <!-- End PAge Content -->
+                <!-- ============================================================== -->
+                <!-- ============================================================== -->
+                <!-- Right sidebar -->
+                <!-- ============================================================== -->
+                <!-- .right-sidebar -->
+                <!-- ============================================================== -->
+                <!-- End Right sidebar -->
+                <!-- ============================================================== -->
+            </div>
+            <!-- ============================================================== -->
+            <!-- End Container fluid  -->
+            <!-- ============================================================== -->
+           <%- include('../footer')%>

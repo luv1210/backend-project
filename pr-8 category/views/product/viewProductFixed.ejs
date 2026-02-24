@@ -1,0 +1,137 @@
+<%- include('../header') %>
+
+<div class="page-wrapper">
+  <div class="page-breadcrumb">
+    <div class="row">
+      <div class="col-12 d-flex no-block align-items-center">
+        <h4 class="page-title">Products</h4>
+        <div class="ml-auto text-right">
+          <nav>
+            <ol class="breadcrumb">
+              <li class="breadcrumb-item"><a href="/">Home</a></li>
+              <li class="breadcrumb-item active">Products</li>
+            </ol>
+          </nav>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="container-fluid">
+    <div class="card">
+      <div class="card-body">
+        <div class="row justify-content-between align-items-center mb-4">
+          <div class="col-md-4">
+            <h5 class="card-title">Products Details</h5>
+          </div>
+          <div class="col-md-4">
+            <form method="GET">
+              <div class="input-group">
+                <input class="form-control" id="search" name="search" type="search" placeholder="Search product..." value="<%= typeof search !== 'undefined' ? search : '' %>">
+                <button class="btn btn-primary" id="searchbtn" disabled>Search</button>
+                <button class="btn btn-secondary" id="resetbtn" type="button">Reset</button>
+              </div>
+            </form>
+          </div>
+        </div>
+
+        <div class="row">
+          <% if (products && products.length) { %>
+            <% products.forEach(function(product, i){ %>
+              <div class="col-md-4 col-lg-3 mb-4">
+                <div class="card h-100 shadow-sm">
+                  <img class="card-img-top" src="<%= product.productImage %>" alt="product image" style="height:200px; object-fit:cover;">
+                  <div class="card-body d-flex flex-column">
+                    <h5 class="card-title"><%= product.title %></h5>
+                    <h6 class="text-success mb-2">₹ <%= product.price %></h6>
+                    <p class="small mb-1"><strong>Category:</strong> <%= product.categoryid && product.categoryid.category %></p>
+                    <p class="small mb-1"><strong>SubCategory:</strong> <%= product.subcategoryid && product.subcategoryid.subcategory %></p>
+                    <p class="small mb-1"><strong>Type:</strong> <%= product.extracategoryid && product.extracategoryid.extracategory %></p>
+                    <p class="text-muted small"><%= product.Description %></p>
+                    <div class="mt-auto d-flex justify-content-between">
+                      <a class="btn btn-warning btn-sm" href="/product/edit/<%= product._id %>">Edit</a>
+                      <button class="btn btn-danger btn-sm" onclick="deleteProduct('<%= product._id %>')">Delete</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            <% }) %>
+          <% } else { %>
+            <div class="col-12 text-center">
+              <h6>No products found</h6>
+            </div>
+          <% } %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="deleteModal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Confirm Delete</h5>
+        <button class="close" data-dismiss="modal" type="button"></button>
+      </div>
+      <div class="modal-body">
+        Are you sure you want to delete this product?
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+        <button class="btn btn-danger" id="confirmDeleteBtn">Delete</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<%- include('../footer') %>
+
+<script>
+  let search = document.getElementById('search');
+  let searchbtn = document.getElementById('searchbtn');
+  let resetbtn = document.getElementById('resetbtn');
+  let productToDelete = null;
+
+  search.addEventListener('input', () => {
+    if (search.value.trim() !== "") {
+      searchbtn.removeAttribute('disabled');
+    } else {
+      searchbtn.setAttribute('disabled', true);
+    }
+  });
+
+  resetbtn.addEventListener('click', () => {
+    window.location.href = window.location.pathname;
+  });
+
+  function deleteProduct(id) {
+    productToDelete = id;
+    $('#deleteModal').modal('show');
+  }
+
+  document.getElementById('confirmDeleteBtn').addEventListener('click', function () {
+    if (!productToDelete) return;
+    fetch('/product/delete/' + productToDelete, {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({})
+    })
+    .then(res => res.json())
+    .then(data => {
+      if (data && data.success) {
+        $('#deleteModal').modal('hide');
+        location.reload();
+      } else {
+        alert('Delete failed');
+      }
+    })
+    .catch(err => {
+      console.error(err);
+      alert('Delete failed');
+    });
+  });
+</script>

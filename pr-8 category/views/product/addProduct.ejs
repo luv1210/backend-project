@@ -1,0 +1,817 @@
+<%- include('../header')%>
+
+<style>
+/* Product Form - Enhanced CSS */
+
+/* Page wrapper background */
+.page-wrapper {
+    background: linear-gradient(135deg, #e0f7fa 0%, #f3e5f5 100%);
+    min-height: 100vh;
+    padding-bottom: 30px;
+}
+
+/* Card styling */
+.card {
+    border-radius: 20px;
+    border: none;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.08);
+    background: linear-gradient(145deg, #ffffff, #f8f9fa);
+    overflow: hidden;
+    transition: all 0.4s ease;
+    margin-top: 20px;
+    position: relative;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 30px 80px rgba(0, 0, 0, 0.12);
+}
+
+.card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 5px;
+    background: linear-gradient(90deg, #667eea 0%, #764ba2 50%, #6b8cff 100%);
+}
+
+/* Card body */
+.card-body {
+    padding: 40px;
+}
+
+/* Card title - Add Admin */
+.card-title.yext-center {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #000000;
+    margin-bottom: 40px;
+    text-align: center;
+    position: relative;
+    padding-bottom: 15px;
+}
+
+.card-title.yext-center::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80px;
+    height: 3px;
+    background: linear-gradient(90deg, #667eea, #764ba2);
+    border-radius: 2px;
+}
+
+/* Breadcrumb styling */
+.page-breadcrumb {
+    background: white;
+    border-radius: 15px;
+    padding: 20px;
+    margin: 20px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+}
+
+.page-title {
+    font-size: 1.6rem;
+    font-weight: 600;
+    color: #000000;
+    margin: 0;
+}
+
+.breadcrumb {
+    background: none;
+    padding: 0;
+    margin: 0;
+}
+
+.breadcrumb-item a {
+    color: #667eea;
+    text-decoration: none;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.breadcrumb-item a:hover {
+    color: #764ba2;
+    text-decoration: underline;
+}
+
+.breadcrumb-item.active {
+    color: #000000;
+    font-weight: 600;
+}
+
+/* Form group styling */
+.form-group.row {
+    margin-bottom: 30px;
+    transition: all 0.3s ease;
+    align-items: center;
+}
+
+.form-group.row:hover {
+    transform: translateX(5px);
+}
+
+/* Form labels */
+.form-group.row label {
+    font-weight: 600;
+    color: #000000;
+    font-size: 1rem;
+    padding-right: 15px;
+    position: relative;
+}
+
+/* Control label styling */
+.control-label.col-form-label {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    height: 100%;
+}
+
+.control-label.col-form-label::after {
+    content: ':';
+    margin-left: 5px;
+    color: #667eea;
+    font-weight: bold;
+}
+
+/* Required field indicator - add 'required' class to labels for required fields */
+.form-group.row label[required]::before {
+    content: '*';
+    color: #e74c3c;
+    margin-right: 5px;
+}
+
+/* Input field styling */
+.form-control {
+    border: 2px solid #e0e0e0;
+    border-radius: 12px;
+    padding: 14px 20px;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    background: white;
+    box-shadow: 0 3px 15px rgba(0, 0, 0, 0.05);
+    color: #000000;
+    width: 100%;
+}
+ select.form-control:not([size]):not([multiple]){
+        height: inherit !important;
+    }
+
+.form-control:focus {
+    border-color: #667eea;
+    box-shadow: 0 5px 25px rgba(102, 126, 234, 0.15);
+    transform: translateY(-2px);
+    outline: none;
+}
+
+.form-control::placeholder {
+    color: #999999;
+    opacity: 0.8;
+    font-style: italic;
+}
+
+/* Textarea styling */
+textarea.form-control {
+    min-height: 120px;
+    resize: vertical;
+}
+
+/* File input styling */
+input[type="file"].form-control {
+    padding: 10px;
+    background: #f8f9fa;
+    border: 2px dashed #e0e0e0;
+    cursor: pointer;
+}
+
+input[type="file"].form-control:hover {
+    border-color: #667eea;
+    background: rgba(102, 126, 234, 0.05);
+}
+
+input[type="file"].form-control:focus {
+    border-color: #667eea;
+    border-style: solid;
+}
+
+/* Submit button section */
+.border-top {
+    border-top: 2px dashed #e0e0e0 !important;
+    margin-top: 20px !important;
+}
+
+.card-body.text-center {
+    padding: 30px !important;
+}
+
+/* Submit button */
+.btn-primary {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border: none;
+    color: white;
+    padding: 14px 50px;
+    border-radius: 50px;
+    font-weight: 600;
+    font-size: 1.1rem;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+    min-width: 200px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+}
+
+.btn-primary::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+    transition: left 0.5s;
+}
+
+.btn-primary:hover::before {
+    left: 100%;
+}
+
+.btn-primary:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 30px rgba(102, 126, 234, 0.5);
+    color: white;
+    background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+}
+
+.btn-primary:active {
+    transform: translateY(-1px);
+}
+
+.btn-primary:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.3);
+}
+
+/* Form validation styling */
+.form-control:invalid:not(:placeholder-shown) {
+    border-color: #e74c3c;
+    background-color: rgba(231, 76, 60, 0.02);
+}
+
+.form-control:valid:not(:placeholder-shown) {
+    border-color: #27ae60;
+    background-color: rgba(39, 174, 96, 0.02);
+}
+
+/* Container fluid spacing */
+.container-fluid {
+    padding: 20px;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+/* Row styling */
+.row {
+    margin-right: 0;
+    margin-left: 0;
+}
+
+/* Column styling */
+.col-md-12 {
+    padding-right: 15px;
+    padding-left: 15px;
+}
+
+/* Animation for form elements */
+@keyframes slideInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.form-group.row {
+    animation: slideInUp 0.5s ease-out;
+    animation-fill-mode: both;
+}
+
+.form-group.row:nth-child(1) { animation-delay: 0.1s; }
+.form-group.row:nth-child(2) { animation-delay: 0.2s; }
+.form-group.row:nth-child(3) { animation-delay: 0.3s; }
+.form-group.row:nth-child(4) { animation-delay: 0.4s; }
+.form-group.row:nth-child(5) { animation-delay: 0.5s; }
+.form-group.row:nth-child(6) { animation-delay: 0.6s; }
+.form-group.row:nth-child(7) { animation-delay: 0.7s; }
+
+/* Responsive adjustments */
+@media (max-width: 1200px) {
+    .container-fluid {
+        padding: 15px;
+    }
+}
+
+@media (max-width: 992px) {
+    .card-body {
+        padding: 30px;
+    }
+    
+    .card-title.yext-center {
+        font-size: 1.8rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .container-fluid {
+        padding: 15px;
+    }
+    
+    .page-breadcrumb {
+        margin: 15px;
+        padding: 15px;
+    }
+    
+    .page-title {
+        font-size: 1.3rem;
+    }
+    
+    .card-body {
+        padding: 25px;
+    }
+    
+    .card-title.yext-center {
+        font-size: 1.6rem;
+        margin-bottom: 30px;
+    }
+    
+    .form-group.row label {
+        text-align: left !important;
+        justify-content: flex-start;
+        padding-bottom: 8px;
+        padding-top: 0;
+        margin-bottom: 5px;
+    }
+    
+    .control-label.col-form-label {
+        justify-content: flex-start;
+    }
+    
+    .control-label.col-form-label::after {
+        display: none;
+    }
+    
+    .col-sm-3, .col-sm-9 {
+        width: 100%;
+        flex: 0 0 100%;
+        max-width: 100%;
+    }
+    
+    .form-group.row {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    
+    .btn-primary {
+        width: 100%;
+        max-width: 300px;
+        padding: 12px 40px;
+    }
+}
+
+@media (max-width: 576px) {
+    .container-fluid {
+        padding: 10px;
+    }
+    
+    .page-breadcrumb {
+        margin: 10px;
+        padding: 12px;
+    }
+    
+    .card-body {
+        padding: 20px 15px;
+    }
+    
+    .card-title.yext-center {
+        font-size: 1.4rem;
+    }
+    
+    .form-control {
+        padding: 12px 15px;
+    }
+    
+    .btn-primary {
+        padding: 12px 30px;
+        font-size: 1rem;
+        min-width: 180px;
+    }
+}
+
+/* Loading state for selects */
+select.form-control.loading {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24' fill='none' stroke='%23667eea' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M21 12a9 9 0 1 1-6.219-8.56'/%3E%3C/svg%3E");
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+/* Success/Error message styling */
+.alert {
+    border-radius: 12px;
+    border: none;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+    margin-bottom: 25px;
+    padding: 15px 20px;
+    animation: slideInUp 0.5s ease-out;
+}
+
+.alert-success {
+    background: linear-gradient(135deg, #27ae60 0%, #2ecc71 100%);
+    color: white;
+}
+
+.alert-danger {
+    background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+    color: white;
+}
+
+.alert-info {
+    background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
+    color: white;
+}
+
+/* Disabled state styling */
+.form-control:disabled,
+.form-control[readonly] {
+    background-color: #f8f9fa;
+    opacity: 0.7;
+    cursor: not-allowed;
+}
+
+/* Focus visible for accessibility */
+.form-control:focus-visible {
+    outline: 2px solid #667eea;
+    outline-offset: 2px;
+}
+
+/* Helper text styling */
+.helper-text {
+    font-size: 0.85rem;
+    color: #666666;
+    margin-top: 5px;
+    font-style: italic;
+}
+
+/* Print styles */
+@media print {
+    .card {
+        box-shadow: none;
+        border: 1px solid #ddd;
+    }
+    
+    .btn-primary,
+    .page-breadcrumb {
+        display: none;
+    }
+    
+    .card-title.yext-center {
+        color: #000 !important;
+    }
+}
+
+/* Form icon styling (if using Font Awesome) */
+.form-group.row i {
+    margin-right: 8px;
+    color: #667eea;
+}
+
+/* Price input specific styling */
+input[name="price"] {
+    font-weight: 500;
+}
+
+/* Description textarea specific styling */
+textarea[name="Description"] {
+    font-family: inherit;
+    line-height: 1.6;
+}
+
+/* Product image input specific styling */
+#cono1 {
+    padding-top: 11px;
+    padding-bottom: 11px;
+}
+
+/* Hover effect for form groups */
+.form-group.row:hover label {
+    color: #667eea;
+    transition: color 0.3s ease;
+}
+
+/* Form section divider (optional - add between sections) */
+.form-section-divider {
+    height: 1px;
+    background: linear-gradient(90deg, transparent, #667eea, transparent);
+    margin: 30px 0;
+    border: none;
+}
+
+/* Category chain preview styling (for selected items) */
+.selected-chain {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 15px;
+    background: rgba(102, 126, 234, 0.05);
+    border-radius: 10px;
+    margin-top: 10px;
+    border-left: 3px solid #667eea;
+}
+
+.selected-chain span {
+    font-size: 0.9rem;
+    color: #666;
+}
+
+.selected-chain .chain-value {
+    font-weight: 600;
+    color: #667eea;
+}
+
+/* Loading overlay for form submission */
+.form-loading {
+    position: relative;
+    pointer-events: none;
+    opacity: 0.7;
+}
+
+.form-loading::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(255, 255, 255, 0.8);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 20px;
+}
+
+/* Tooltip styling */
+.tooltip-icon {
+    display: inline-block;
+    margin-left: 5px;
+    color: #999;
+    cursor: help;
+    position: relative;
+}
+
+.tooltip-icon:hover::after {
+    content: attr(data-tooltip);
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #333;
+    color: white;
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-size: 0.8rem;
+    white-space: nowrap;
+    z-index: 1000;
+    margin-bottom: 5px;
+}
+
+/* Bootstrap class overrides for better spacing */
+.ml-auto {
+    margin-left: auto !important;
+}
+
+.text-right {
+    text-align: right !important;
+}
+
+.no-block {
+    display: flex;
+    align-items: center;
+}
+
+/* Ensure proper alignment in breadcrumb */
+.d-flex {
+    display: flex !important;
+}
+
+.align-items-center {
+    align-items: center !important;
+}
+
+/* Responsive text alignment */
+@media (max-width: 768px) {
+    .text-right {
+        text-align: left !important;
+    }
+    
+    .ml-auto {
+        margin-left: 0 !important;
+    }
+    
+    .d-flex {
+        flex-direction: column;
+        align-items: flex-start !important;
+    }
+    
+    .ml-auto.text-right {
+        margin-top: 10px;
+        width: 100%;
+    }
+}
+</style>
+        <!-- ============================================================== -->
+        <!-- Page wrapper  -->
+        <!-- ============================================================== -->
+        <div class="page-wrapper">
+            <!-- ============================================================== -->
+            <!-- Bread crumb and right sidebar toggle -->
+            <!-- ============================================================== -->
+            <div class="page-breadcrumb">
+                <div class="row">
+                    <div class="col-12 d-flex no-block align-items-center">
+                        <h4 class="page-title">Form Basic</h4>
+                        <div class="ml-auto text-right">
+                            <nav aria-label="breadcrumb">
+                                <ol class="breadcrumb">
+                                    <li class="breadcrumb-item"><a href="/">Home</a></li>
+                                    <li class="breadcrumb-item active" aria-current="page">add product</li>
+                                </ol>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- ============================================================== -->
+            <!-- End Bread crumb and right sidebar toggle -->
+            <!-- ============================================================== -->
+            <!-- ============================================================== -->
+            <!-- Container fluid  -->
+            <!-- ============================================================== -->
+            <div class="container-fluid">
+                <!-- ============================================================== -->
+                <!-- Start Page Content -->
+                <!-- ============================================================== -->
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="card">
+                            <form class="form-horizontal" action="/product/add-product" method="post" enctype="multipart/form-data">
+                                <div class="card-body">
+                                    <h4 class="card-title yext-center">Add Product</h4>
+
+                                    <div class="form-group row">
+                                        <label for="fname" class="col-sm-3 text-right control-label col-form-label">Category</label>
+                                        <div class="col-sm-9">
+                                            <select name="categoryid" id="categoryid" class="form-control">
+                                                <option value="">Select Category</option>
+                                                 <%category.forEach((cat)=>{%>
+                                                    <option value="<%=cat.id%>"><%=cat.category%></option>
+                                                <%})%>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group row">
+                                        <label for="fname" class="col-sm-3 text-right control-label col-form-label">Sub Category</label>
+                                        <div class="col-sm-9">
+                                            <select name="subcategoryid" id="subcategoryid" class="form-control">
+                                                <option value="">Select SubCategory</option>
+                                                
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                     <div class="form-group row">
+                                        <label for="fname" class="col-sm-3 text-right control-label col-form-label">Extra Category</label>
+                                        <div class="col-sm-9">
+                                            <select name="extracategoryid" id="extracategoryid" class="form-control">
+                                                <option value="">Select ExtraCategory</option>
+                                                
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group row">
+                                        <label for="fname" class="col-sm-3 text-right control-label col-form-label">Name</label>
+                                        <div class="col-sm-9">
+                                            <input type="text" class="form-control"  name="title" placeholder="Product Name Here">
+                                        </div>
+                                    </div>
+                            
+                                    <div class="form-group row">
+                                        <label for="fname" class="col-sm-3 text-right control-label col-form-label">Price</label>
+                                        <div class="col-sm-9">
+                                            <input type="text" class="form-control"  name="price" placeholder="Product Price Here">
+                                        </div>
+                                    </div>
+
+                                     <div class="form-group row">
+                                        <label for="fname" class="col-sm-3 text-right control-label col-form-label">Description</label>
+                                        <div class="col-sm-9">
+                                            <textarea class="form-control" name="Description" placeholder="Product Description Here"></textarea>
+                                        </div>
+                                    </div>
+
+                                     <div class="form-group row">
+                                        <label for="cono1" class="col-sm-3 text-right control-label col-form-label">Prodcut Image</label>
+                                        <div class="col-sm-9">
+                                            <input type="file" class="form-control" id="cono1" name="productImage">
+                                        </div>
+                                    </div>
+                                  
+                                    
+                                </div>
+                                <div class="border-top text-center">
+                                    <div class="card-body ">
+                                        <button type="submit" class="btn btn-primary">Submit</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+
+                      
+
+                    </div>
+                
+                </div>
+                <!-- editor -->
+               
+                <!-- ============================================================== -->
+                <!-- End PAge Content -->
+                <!-- ============================================================== -->
+                <!-- ============================================================== -->
+                <!-- Right sidebar -->
+                <!-- ============================================================== -->
+                <!-- .right-sidebar -->
+                <!-- ============================================================== -->
+                <!-- End Right sidebar -->
+                <!-- ============================================================== -->
+            </div>
+            <!-- ============================================================== -->
+            <!-- End Container fluid  -->
+            <!-- ============================================================== -->
+           <%- include('../footer')%>
+
+
+
+           <script>
+            let category = document.getElementById('categoryid')
+            let subcategory = document.getElementById('subcategoryid')
+            let extracategory = document.getElementById('extracategoryid')
+            category.addEventListener('change',()=>{
+                let categoryid = category.value
+                subcategory.innerHTML = `<option value="">Select SubCategory</option>`
+                fetch(`/product/subcategory/${categoryid}`)
+                .then(res =>res.json())
+                .then((data) =>{
+                    data.allsubcategory.forEach((subcat)=>{
+                        let option = document.createElement('option')
+                        option.setAttribute('value',subcat._id)
+                        option.innerHTML = subcat.subcategory
+                        console.log(option)
+                        subcategory.append(option)
+                    })
+                })
+                .catch(err=>console.log(err))
+            })
+
+
+             subcategory.addEventListener('change',()=>{
+                let subcategoryid = subcategory.value
+                extracategory.innerHTML = `<option value="">Select SubCategory</option>`
+                fetch(`/product/extracategory/${subcategoryid}`)
+                .then(res =>res.json())
+                .then((data) =>{
+                    data.allextracategory.forEach((extracat)=>{
+                        let option = document.createElement('option')
+                        option.setAttribute('value',extracat._id)
+                        option.innerHTML = extracat.extracategory
+                        console.log(option)
+                        extracategory.append(option)
+                    })
+                })
+                .catch(err=>console.log(err))
+            })
+           </script>
+
+
+<!-- 

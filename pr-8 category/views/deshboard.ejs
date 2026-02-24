@@ -1,0 +1,1272 @@
+<%-include('header')%>
+
+<style>
+:root {
+    --primary: #6366f1;
+    --success: #22c55e;
+    --warning: #f59e0b;
+    --danger: #ef4444;
+    --info: #3b82f6;
+    --dark: #1e293b;
+    --light: #f8fafc;
+    --gray-50: #f9fafb;
+    --gray-100: #f3f4f6;
+    --gray-200: #e5e7eb;
+    --gray-600: #4b5563;
+    --gray-700: #374151;
+    --gray-800: #1f2937;
+    --gray-900: #111827;
+}
+
+body {
+    background-color: #f3f4f6;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+
+.page-wrapper {
+    background-color: #f3f4f6;
+    min-height: 100vh;
+}
+
+/* Modern Card Styles */
+.card {
+    border: none;
+    border-radius: 20px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+    transition: all 0.3s ease;
+    background: white;
+    margin-bottom: 24px;
+}
+
+.card:hover {
+    box-shadow: 0 20px 25px -5px rgba(0,0,0,0.05), 0 10px 10px -5px rgba(0,0,0,0.02);
+}
+
+.card-body {
+    padding: 1.75rem;
+}
+
+.card-title {
+    font-weight: 600;
+    color: var(--gray-800);
+    font-size: 1.1rem;
+    margin-bottom: 0.5rem;
+    letter-spacing: -0.01em;
+}
+
+.card-subtitle {
+    color: var(--gray-600);
+    font-size: 0.875rem;
+    font-weight: 400;
+}
+
+/* Stats Cards */
+.stat-card {
+    padding: 1.5rem;
+    border-radius: 20px;
+    background: white;
+    transition: all 0.3s ease;
+}
+
+.stat-card:hover {
+    transform: translateY(-4px);
+}
+
+.stat-icon {
+    width: 56px;
+    height: 56px;
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.75rem;
+}
+
+.stat-icon.bg-primary-light { background: rgba(99, 102, 241, 0.1); color: var(--primary); }
+.stat-icon.bg-success-light { background: rgba(34, 197, 94, 0.1); color: var(--success); }
+.stat-icon.bg-warning-light { background: rgba(245, 158, 11, 0.1); color: var(--warning); }
+.stat-icon.bg-danger-light { background: rgba(239, 68, 68, 0.1); color: var(--danger); }
+.stat-icon.bg-info-light { background: rgba(59, 130, 246, 0.1); color: var(--info); }
+
+/* Metric Cards */
+.metric-card {
+    background: linear-gradient(145deg, #ffffff 0%, #f9fafb 100%);
+    padding: 1.5rem;
+    border-radius: 20px;
+    border: 1px solid rgba(0,0,0,0.02);
+}
+
+.metric-label {
+    color: var(--gray-600);
+    font-size: 0.875rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.metric-value {
+    color: var(--gray-900);
+    font-size: 2rem;
+    font-weight: 700;
+    line-height: 1.2;
+    margin-bottom: 0.25rem;
+}
+
+.metric-change {
+    font-size: 0.875rem;
+    font-weight: 500;
+}
+
+.metric-change.positive { color: var(--success); }
+.metric-change.negative { color: var(--danger); }
+
+/* Dashboard Cards */
+.dashboard-card {
+    background: white;
+    border-radius: 24px;
+    padding: 1.5rem;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+}
+
+.dashboard-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+}
+
+.dashboard-card-title {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--gray-800);
+    margin: 0;
+}
+
+.dashboard-card-subtitle {
+    font-size: 0.875rem;
+    color: var(--gray-600);
+    margin-top: 0.25rem;
+}
+
+/* Modern Breadcrumb */
+.page-breadcrumb {
+    background: transparent;
+    padding: 1.5rem 1.5rem 0.5rem 1.5rem;
+}
+
+.breadcrumb {
+    background: transparent;
+    padding: 0;
+    margin: 0;
+}
+
+.breadcrumb-item {
+    font-size: 0.875rem;
+}
+
+.breadcrumb-item a {
+    color: var(--gray-600);
+    text-decoration: none;
+    transition: color 0.2s;
+}
+
+.breadcrumb-item a:hover {
+    color: var(--primary);
+}
+
+.breadcrumb-item.active {
+    color: var(--gray-800);
+    font-weight: 500;
+}
+
+/* Progress Bars */
+.progress {
+    height: 8px;
+    border-radius: 4px;
+    background-color: var(--gray-100);
+    overflow: hidden;
+}
+
+.progress-bar {
+    border-radius: 4px;
+    transition: width 0.3s ease;
+}
+
+.progress-bar-striped {
+    background-image: linear-gradient(45deg, rgba(255,255,255,.15) 25%, transparent 25%, transparent 50%, rgba(255,255,255,.15) 50%, rgba(255,255,255,.15) 75%, transparent 75%, transparent);
+    background-size: 1rem 1rem;
+}
+
+/* Comment Section */
+.comment-widgets {
+    padding: 0 0.5rem;
+}
+
+.comment-row {
+    padding: 1.25rem;
+    border-radius: 16px;
+    transition: background-color 0.2s;
+    margin-bottom: 0.5rem;
+}
+
+.comment-row:hover {
+    background-color: var(--gray-50);
+}
+
+.comment-row img {
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
+    object-fit: cover;
+}
+
+.comment-text h6 {
+    color: var(--gray-800);
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+}
+
+.comment-text span {
+    color: var(--gray-600);
+    font-size: 0.875rem;
+    line-height: 1.5;
+}
+
+.comment-footer {
+    margin-top: 0.75rem;
+}
+
+.comment-footer .btn {
+    padding: 0.25rem 0.75rem;
+    font-size: 0.75rem;
+    border-radius: 6px;
+    font-weight: 500;
+    margin-right: 0.5rem;
+}
+
+/* Todo List */
+.todo-widget {
+    max-height: 400px;
+    overflow-y: auto;
+    padding-right: 0.5rem;
+}
+
+.todo-item {
+    background: white;
+    border: 1px solid var(--gray-100);
+    border-radius: 16px !important;
+    margin-bottom: 0.75rem;
+    padding: 1.25rem;
+    transition: all 0.2s;
+}
+
+.todo-item:hover {
+    border-color: var(--gray-200);
+    box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
+}
+
+.todo-label {
+    color: var(--gray-700);
+    font-weight: 500;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    cursor: pointer;
+}
+
+.todo-desc {
+    font-size: 0.9375rem;
+}
+
+.custom-control-input:checked ~ .todo-label {
+    color: var(--gray-400);
+    text-decoration: line-through;
+}
+
+.assignedto {
+    margin-top: 0.75rem;
+    padding-left: 1.75rem;
+}
+
+.assignedto li {
+    display: inline-block;
+    margin-right: -8px;
+}
+
+.assignedto img {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    border: 2px solid white;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+/* Badges */
+.badge {
+    padding: 0.35rem 0.75rem;
+    font-weight: 500;
+    border-radius: 6px;
+    font-size: 0.75rem;
+}
+
+/* Buttons */
+.btn {
+    border-radius: 10px;
+    padding: 0.5rem 1rem;
+    font-weight: 500;
+    font-size: 0.875rem;
+    transition: all 0.2s;
+    border: none;
+}
+
+.btn-sm {
+    padding: 0.25rem 0.75rem;
+    font-size: 0.75rem;
+}
+
+.btn-cyan {
+    background: var(--primary);
+    color: white;
+}
+
+.btn-cyan:hover {
+    background: #4f52e0;
+    color: white;
+    transform: translateY(-1px);
+}
+
+.btn-success {
+    background: var(--success);
+    color: white;
+}
+
+.btn-danger {
+    background: var(--danger);
+    color: white;
+}
+
+.btn-outline-primary {
+    background: transparent;
+    border: 1px solid var(--primary);
+    color: var(--primary);
+}
+
+.btn-outline-primary:hover {
+    background: var(--primary);
+    color: white;
+}
+
+/* Chat Styles */
+.chat-box {
+    padding: 0.5rem;
+}
+
+.chat-item {
+    display: flex;
+    margin-bottom: 1.5rem;
+    animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.chat-item.odd {
+    justify-content: flex-end;
+}
+
+.chat-img {
+    width: 40px;
+    height: 40px;
+    border-radius: 12px;
+    overflow: hidden;
+    margin-right: 1rem;
+    flex-shrink: 0;
+}
+
+.chat-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.chat-content {
+    max-width: 70%;
+}
+
+.chat-content h6 {
+    color: var(--gray-800);
+    font-size: 0.875rem;
+    font-weight: 600;
+    margin-bottom: 0.25rem;
+}
+
+.chat-content .box {
+    padding: 1rem;
+    border-radius: 16px;
+    border-bottom-left-radius: 4px;
+    background: var(--gray-100);
+    color: var(--gray-700);
+    font-size: 0.875rem;
+    line-height: 1.5;
+}
+
+.odd .chat-content .box {
+    background: var(--primary);
+    color: white;
+    border-bottom-left-radius: 16px;
+    border-bottom-right-radius: 4px;
+}
+
+.chat-time {
+    font-size: 0.75rem;
+    color: var(--gray-600);
+    margin-top: 0.25rem;
+}
+
+/* Tabs */
+.nav-tabs {
+    border-bottom: 1px solid var(--gray-200);
+    padding: 0 1.5rem;
+}
+
+.nav-tabs .nav-link {
+    border: none;
+    color: var(--gray-600);
+    font-weight: 500;
+    padding: 1rem 1.5rem;
+    margin-bottom: -1px;
+    transition: all 0.2s;
+    position: relative;
+}
+
+.nav-tabs .nav-link:after {
+    content: '';
+    position: absolute;
+    bottom: -1px;
+    left: 1.5rem;
+    right: 1.5rem;
+    height: 2px;
+    background: var(--primary);
+    transform: scaleX(0);
+    transition: transform 0.2s;
+}
+
+.nav-tabs .nav-link.active {
+    color: var(--primary);
+    background: transparent;
+}
+
+.nav-tabs .nav-link.active:after {
+    transform: scaleX(1);
+}
+
+.tab-content {
+    padding: 1.5rem;
+}
+
+.tab-pane img {
+    border-radius: 16px;
+    width: 100%;
+}
+
+/* Accordion */
+.accordion .card {
+    border-radius: 16px !important;
+    overflow: hidden;
+}
+
+.accordion .card-header {
+    background: white;
+    border-bottom: 1px solid var(--gray-100);
+    padding: 1rem 1.5rem;
+}
+
+.accordion .card-header a {
+    color: var(--gray-800);
+    font-weight: 600;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+}
+
+.accordion .card-header i {
+    color: var(--primary);
+    margin-right: 0.75rem;
+}
+
+/* Custom Scrollbar */
+.scrollable::-webkit-scrollbar {
+    width: 6px;
+}
+
+.scrollable::-webkit-scrollbar-track {
+    background: var(--gray-100);
+    border-radius: 10px;
+}
+
+.scrollable::-webkit-scrollbar-thumb {
+    background: var(--gray-300);
+    border-radius: 10px;
+}
+
+.scrollable::-webkit-scrollbar-thumb:hover {
+    background: var(--gray-400);
+}
+
+/* News Updates */
+.list-style-none li {
+    padding: 1.25rem 1.5rem;
+    border-bottom: 1px solid var(--gray-100);
+    transition: background-color 0.2s;
+}
+
+.list-style-none li:hover {
+    background-color: var(--gray-50);
+}
+
+.list-style-none li i {
+    color: var(--primary);
+    font-size: 1.25rem;
+}
+
+.list-style-none li a {
+    color: var(--gray-800);
+    font-weight: 600;
+    text-decoration: none;
+    font-size: 0.9375rem;
+    margin-bottom: 0.25rem;
+    display: block;
+}
+
+.list-style-none li span {
+    color: var(--gray-600);
+    font-size: 0.8125rem;
+}
+
+/* Input Fields */
+.form-control {
+    border-radius: 12px;
+    border: 1px solid var(--gray-200);
+    padding: 0.75rem 1rem;
+    transition: all 0.2s;
+}
+
+.form-control:focus {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+    outline: none;
+}
+
+textarea.form-control {
+    min-height: 80px;
+    resize: vertical;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .card-body {
+        padding: 1.25rem;
+    }
+    
+    .stat-card {
+        padding: 1.25rem;
+    }
+    
+    .metric-value {
+        font-size: 1.5rem;
+    }
+    
+    .nav-tabs .nav-link {
+        padding: 0.75rem 1rem;
+    }
+}
+</style>
+
+<!-- ============================================================== -->
+<!-- Page wrapper  -->
+<!-- ============================================================== -->
+<div class="page-wrapper">
+    <!-- ============================================================== -->
+    <!-- Bread crumb and right sidebar toggle -->
+    <!-- ============================================================== -->
+    <div class="page-breadcrumb">
+        <div class="row align-items-center">
+            <div class="col-6">
+                <h4 class="page-title">Dashboard</h4>
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="#">Home</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">Dashboard</li>
+                    </ol>
+                </nav>
+            </div>
+            <div class="col-6 text-end">
+                <button class="btn btn-outline-primary btn-sm">
+                    <i class="mdi mdi-download me-1"></i> Download Report
+                </button>
+            </div>
+        </div>
+    </div>
+    <!-- ============================================================== -->
+    <!-- End Bread crumb and right sidebar toggle -->
+    <!-- ============================================================== -->
+
+    <!-- ============================================================== -->
+    <!-- Container fluid  -->
+    <!-- ============================================================== -->
+    <div class="container-fluid">
+        <!-- ============================================================== -->
+        <!-- Quick Stats Cards -->
+        <!-- ============================================================== -->
+        <div class="row g-4 mb-4">
+            <!-- Column -->
+            <div class="col-xl-3 col-md-6">
+                <div class="stat-card">
+                    <div class="d-flex align-items-center">
+                        <div class="stat-icon bg-primary-light me-3">
+                            <i class="mdi mdi-account-group"></i>
+                        </div>
+                        <div>
+                            <span class="metric-label">Total Users</span>
+                            <h3 class="metric-value">2,540</h3>
+                            <span class="metric-change positive">
+                                <i class="mdi mdi-arrow-up"></i> 12% from last month
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Column -->
+            <div class="col-xl-3 col-md-6">
+                <div class="stat-card">
+                    <div class="d-flex align-items-center">
+                        <div class="stat-icon bg-success-light me-3">
+                            <i class="mdi mdi-cart"></i>
+                        </div>
+                        <div>
+                            <span class="metric-label">Total Orders</span>
+                            <h3 class="metric-value">9,540</h3>
+                            <span class="metric-change positive">
+                                <i class="mdi mdi-arrow-up"></i> 8% from last month
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Column -->
+            <div class="col-xl-3 col-md-6">
+                <div class="stat-card">
+                    <div class="d-flex align-items-center">
+                        <div class="stat-icon bg-warning-light me-3">
+                            <i class="mdi mdi-chart-line"></i>
+                        </div>
+                        <div>
+                            <span class="metric-label">Revenue</span>
+                            <h3 class="metric-value">$45,280</h3>
+                            <span class="metric-change positive">
+                                <i class="mdi mdi-arrow-up"></i> 23% from last month
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Column -->
+            <div class="col-xl-3 col-md-6">
+                <div class="stat-card">
+                    <div class="d-flex align-items-center">
+                        <div class="stat-icon bg-danger-light me-3">
+                            <i class="mdi mdi-clock-outline"></i>
+                        </div>
+                        <div>
+                            <span class="metric-label">Pending</span>
+                            <h3 class="metric-value">100</h3>
+                            <span class="metric-change negative">
+                                <i class="mdi mdi-arrow-down"></i> 5% from last month
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ============================================================== -->
+        <!-- Site Analysis Chart -->
+        <!-- ============================================================== -->
+        <div class="row mb-4">
+            <div class="col-12">
+                <div class="dashboard-card">
+                    <div class="dashboard-card-header">
+                        <div>
+                            <h5 class="dashboard-card-title">Site Analysis</h5>
+                            <p class="dashboard-card-subtitle">Overview of latest month performance</p>
+                        </div>
+                        <div class="btn-group">
+                            <button class="btn btn-outline-primary btn-sm active">Weekly</button>
+                            <button class="btn btn-outline-primary btn-sm">Monthly</button>
+                            <button class="btn btn-outline-primary btn-sm">Yearly</button>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-8">
+                            <div class="flot-chart" style="height: 300px;">
+                                <div class="flot-chart-content" id="flot-line-chart"></div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+                            <div class="row g-3">
+                                <div class="col-6">
+                                    <div class="metric-card">
+                                        <span class="metric-label">Total Users</span>
+                                        <h4 class="metric-value">2,540</h4>
+                                        <span class="badge bg-success">+12%</span>
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <div class="metric-card">
+                                        <span class="metric-label">New Users</span>
+                                        <h4 class="metric-value">120</h4>
+                                        <span class="badge bg-primary">+8%</span>
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <div class="metric-card">
+                                        <span class="metric-label">Total Shop</span>
+                                        <h4 class="metric-value">656</h4>
+                                        <span class="badge bg-warning">+3%</span>
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <div class="metric-card">
+                                        <span class="metric-label">Online Orders</span>
+                                        <h4 class="metric-value">8,540</h4>
+                                        <span class="badge bg-info">+15%</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ============================================================== -->
+        <!-- Recent Activity and Chats -->
+        <!-- ============================================================== -->
+        <div class="row g-4">
+            <!-- Left Column -->
+            <div class="col-lg-6">
+                <!-- Latest Posts -->
+                <div class="dashboard-card mb-4">
+                    <div class="dashboard-card-header">
+                        <div>
+                            <h5 class="dashboard-card-title">Latest Posts</h5>
+                            <p class="dashboard-card-subtitle">Recent activity from your team</p>
+                        </div>
+                        <a href="#" class="text-primary">View all</a>
+                    </div>
+                    <div class="comment-widgets scrollable" style="max-height: 400px;">
+                        <!-- Comment Row -->
+                        <div class="d-flex comment-row">
+                            <div class="flex-shrink-0">
+                                <img src="assets/images/users/1.jpg" alt="user" class="rounded-circle">
+                            </div>
+                            <div class="flex-grow-1 ms-3">
+                                <h6>James Anderson</h6>
+                                <p class="mb-2">Lorem Ipsum is simply dummy text of the printing and type setting industry.</p>
+                                <div class="comment-footer">
+                                    <span class="text-muted me-3"><i class="mdi mdi-clock-outline"></i> April 14, 2016</span>
+                                    <button class="btn btn-cyan btn-sm">Edit</button>
+                                    <button class="btn btn-success btn-sm">Publish</button>
+                                    <button class="btn btn-danger btn-sm">Delete</button>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Comment Row -->
+                        <div class="d-flex comment-row">
+                            <div class="flex-shrink-0">
+                                <img src="assets/images/users/4.jpg" alt="user" class="rounded-circle">
+                            </div>
+                            <div class="flex-grow-1 ms-3">
+                                <h6>Michael Jorden</h6>
+                                <p class="mb-2">Lorem Ipsum is simply dummy text of the printing and type setting industry.</p>
+                                <div class="comment-footer">
+                                    <span class="text-muted me-3"><i class="mdi mdi-clock-outline"></i> May 10, 2016</span>
+                                    <button class="btn btn-cyan btn-sm">Edit</button>
+                                    <button class="btn btn-success btn-sm">Publish</button>
+                                    <button class="btn btn-danger btn-sm">Delete</button>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Comment Row -->
+                        <div class="d-flex comment-row">
+                            <div class="flex-shrink-0">
+                                <img src="assets/images/users/5.jpg" alt="user" class="rounded-circle">
+                            </div>
+                            <div class="flex-grow-1 ms-3">
+                                <h6>Johnathan Doeting</h6>
+                                <p class="mb-2">Lorem Ipsum is simply dummy text of the printing and type setting industry.</p>
+                                <div class="comment-footer">
+                                    <span class="text-muted me-3"><i class="mdi mdi-clock-outline"></i> August 1, 2016</span>
+                                    <button class="btn btn-cyan btn-sm">Edit</button>
+                                    <button class="btn btn-success btn-sm">Publish</button>
+                                    <button class="btn btn-danger btn-sm">Delete</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- To Do List -->
+                <div class="dashboard-card mb-4">
+                    <div class="dashboard-card-header">
+                        <div>
+                            <h5 class="dashboard-card-title">Tasks</h5>
+                            <p class="dashboard-card-subtitle">You have 5 tasks pending</p>
+                        </div>
+                        <button class="btn btn-primary btn-sm">
+                            <i class="mdi mdi-plus"></i> Add Task
+                        </button>
+                    </div>
+                    <div class="todo-widget">
+                        <ul class="list-unstyled">
+                            <li class="todo-item">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="task1">
+                                    <label class="form-check-label todo-label" for="task1">
+                                        <span class="todo-desc">Review dashboard design and provide feedback</span>
+                                        <span class="badge bg-danger">Today</span>
+                                    </label>
+                                </div>
+                                <ul class="assignedto list-unstyled">
+                                    <li><img src="assets/images/users/1.jpg" alt="user" data-toggle="tooltip" title="Steave"></li>
+                                    <li><img src="assets/images/users/2.jpg" alt="user" data-toggle="tooltip" title="Jessica"></li>
+                                    <li><img src="assets/images/users/3.jpg" alt="user" data-toggle="tooltip" title="Priyanka"></li>
+                                </ul>
+                            </li>
+                            <li class="todo-item">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="task2">
+                                    <label class="form-check-label todo-label" for="task2">
+                                        <span class="todo-desc">Update user documentation for new features</span>
+                                        <span class="badge bg-primary">1 week</span>
+                                    </label>
+                                </div>
+                                <div class="item-date text-muted small mt-2">Due: 26 Jun 2017</div>
+                            </li>
+                            <li class="todo-item">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="task3">
+                                    <label class="form-check-label todo-label" for="task3">
+                                        <span class="todo-desc">Prepare monthly sales report</span>
+                                        <span class="badge bg-info">Yesterday</span>
+                                    </label>
+                                </div>
+                                <ul class="assignedto list-unstyled">
+                                    <li><img src="assets/images/users/3.jpg" alt="user" data-toggle="tooltip" title="Priyanka"></li>
+                                    <li><img src="assets/images/users/4.jpg" alt="user" data-toggle="tooltip" title="Selina"></li>
+                                </ul>
+                            </li>
+                            <li class="todo-item">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="task4">
+                                    <label class="form-check-label todo-label" for="task4">
+                                        <span class="todo-desc">Schedule team meeting for Q3 planning</span>
+                                        <span class="badge bg-warning">2 weeks</span>
+                                    </label>
+                                </div>
+                                <div class="item-date text-muted small mt-2">Due: 26 Jun 2017</div>
+                            </li>
+                            <li class="todo-item">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="task5">
+                                    <label class="form-check-label todo-label" for="task5">
+                                        <span class="todo-desc">Review pull requests and merge changes</span>
+                                        <span class="badge bg-info">Yesterday</span>
+                                    </label>
+                                </div>
+                                <ul class="assignedto list-unstyled">
+                                    <li><img src="assets/images/users/3.jpg" alt="user" data-toggle="tooltip" title="Priyanka"></li>
+                                    <li><img src="assets/images/users/4.jpg" alt="user" data-toggle="tooltip" title="Selina"></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Progress Box -->
+                <div class="dashboard-card mb-4">
+                    <div class="dashboard-card-header">
+                        <div>
+                            <h5 class="dashboard-card-title">Progress Overview</h5>
+                            <p class="dashboard-card-subtitle">Monthly performance metrics</p>
+                        </div>
+                    </div>
+                    <div class="mt-4">
+                        <div class="mb-4">
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                <span class="fw-500">Clicks</span>
+                                <span class="text-primary fw-600">81% (125)</span>
+                            </div>
+                            <div class="progress">
+                                <div class="progress-bar bg-primary" role="progressbar" style="width: 81%"></div>
+                            </div>
+                        </div>
+                        <div class="mb-4">
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                <span class="fw-500">Unique Clicks</span>
+                                <span class="text-success fw-600">72% (120)</span>
+                            </div>
+                            <div class="progress">
+                                <div class="progress-bar bg-success" role="progressbar" style="width: 72%"></div>
+                            </div>
+                        </div>
+                        <div class="mb-4">
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                <span class="fw-500">Impressions</span>
+                                <span class="text-info fw-600">53% (785)</span>
+                            </div>
+                            <div class="progress">
+                                <div class="progress-bar bg-info" role="progressbar" style="width: 53%"></div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                <span class="fw-500">Online Users</span>
+                                <span class="text-danger fw-600">3% (8)</span>
+                            </div>
+                            <div class="progress">
+                                <div class="progress-bar bg-danger" role="progressbar" style="width: 3%"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- News Updates -->
+                <div class="dashboard-card">
+                    <div class="dashboard-card-header">
+                        <div>
+                            <h5 class="dashboard-card-title">News Updates</h5>
+                            <p class="dashboard-card-subtitle">Latest announcements</p>
+                        </div>
+                    </div>
+                    <ul class="list-unstyled">
+                        <li class="d-flex align-items-center">
+                            <i class="mdi mdi-check-circle text-success me-3 fs-5"></i>
+                            <div class="flex-grow-1">
+                                <a href="#" class="fw-600 text-dark">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</a>
+                                <p class="text-muted small mb-0">dolor sit amet, consectetur adipiscing</p>
+                            </div>
+                            <div class="text-end ms-3">
+                                <h6 class="mb-0">20</h6>
+                                <small class="text-muted">Jan</small>
+                            </div>
+                        </li>
+                        <li class="d-flex align-items-center border-top">
+                            <i class="mdi mdi-gift text-warning me-3 fs-5"></i>
+                            <div class="flex-grow-1">
+                                <a href="#" class="fw-600 text-dark">Congratulation Maruti, Happy Birthday</a>
+                                <p class="text-muted small mb-0">many many happy returns of the day</p>
+                            </div>
+                            <div class="text-end ms-3">
+                                <h6 class="mb-0">11</h6>
+                                <small class="text-muted">Jan</small>
+                            </div>
+                        </li>
+                        <li class="d-flex align-items-center border-top">
+                            <i class="mdi mdi-plus-circle text-primary me-3 fs-5"></i>
+                            <div class="flex-grow-1">
+                                <a href="#" class="fw-600 text-dark">Maruti is a Responsive Admin theme</a>
+                                <p class="text-muted small mb-0">But already everything was solved. It will ...</p>
+                            </div>
+                            <div class="text-end ms-3">
+                                <h6 class="mb-0">19</h6>
+                                <small class="text-muted">Jan</small>
+                            </div>
+                        </li>
+                        <li class="d-flex align-items-center border-top">
+                            <i class="mdi mdi-leaf text-success me-3 fs-5"></i>
+                            <div class="flex-grow-1">
+                                <a href="#" class="fw-600 text-dark">Envato approved Maruti Admin template</a>
+                                <p class="text-muted small mb-0">i am very happy to approved by TF</p>
+                            </div>
+                            <div class="text-end ms-3">
+                                <h6 class="mb-0">20</h6>
+                                <small class="text-muted">Jan</small>
+                            </div>
+                        </li>
+                        <li class="d-flex align-items-center border-top">
+                            <i class="mdi mdi-help-circle text-info me-3 fs-5"></i>
+                            <div class="flex-grow-1">
+                                <a href="#" class="fw-600 text-dark">I am alwayse here if you have any question</a>
+                                <p class="text-muted small mb-0">we glad that you choose our template</p>
+                            </div>
+                            <div class="text-end ms-3">
+                                <h6 class="mb-0">15</h6>
+                                <small class="text-muted">Jan</small>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Right Column -->
+            <div class="col-lg-6">
+                <!-- Chat Option -->
+                <div class="dashboard-card mb-4">
+                    <div class="dashboard-card-header">
+                        <div>
+                            <h5 class="dashboard-card-title">Team Chat</h5>
+                            <p class="dashboard-card-subtitle">You have 3 unread messages</p>
+                        </div>
+                        <span class="badge bg-primary">Online</span>
+                    </div>
+                    <div class="chat-box scrollable" style="height: 350px;">
+                        <ul class="list-unstyled">
+                            <li class="chat-item">
+                                <div class="chat-img">
+                                    <img src="assets/images/users/1.jpg" alt="user">
+                                </div>
+                                <div class="chat-content">
+                                    <h6>James Anderson</h6>
+                                    <div class="box">Lorem Ipsum is simply dummy text of the printing &amp; type setting industry.</div>
+                                </div>
+                                <div class="chat-time">10:56 am</div>
+                            </li>
+                            <li class="chat-item">
+                                <div class="chat-img">
+                                    <img src="assets/images/users/2.jpg" alt="user">
+                                </div>
+                                <div class="chat-content">
+                                    <h6>Bianca Doe</h6>
+                                    <div class="box">It’s Great opportunity to work.</div>
+                                </div>
+                                <div class="chat-time">10:57 am</div>
+                            </li>
+                            <li class="chat-item odd">
+                                <div class="chat-content">
+                                    <div class="box">I would love to join the team.</div>
+                                </div>
+                            </li>
+                            <li class="chat-item odd">
+                                <div class="chat-content">
+                                    <div class="box">Whats budget of the new project.</div>
+                                </div>
+                                <div class="chat-time">10:59 am</div>
+                            </li>
+                            <li class="chat-item">
+                                <div class="chat-img">
+                                    <img src="assets/images/users/3.jpg" alt="user">
+                                </div>
+                                <div class="chat-content">
+                                    <h6>Angelina Rhodes</h6>
+                                    <div class="box">Well we have good budget for the project</div>
+                                </div>
+                                <div class="chat-time">11:00 am</div>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="border-top p-3">
+                        <div class="input-group">
+                            <input type="text" class="form-control" placeholder="Type your message...">
+                            <button class="btn btn-primary" type="button">
+                                <i class="mdi mdi-send"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Our Partners -->
+                <div class="dashboard-card mb-4">
+                    <div class="dashboard-card-header">
+                        <div>
+                            <h5 class="dashboard-card-title">Our Partners</h5>
+                            <p class="dashboard-card-subtitle">Recent partner activities</p>
+                        </div>
+                    </div>
+                    <div class="comment-widgets scrollable" style="max-height: 150px;">
+                        <div class="d-flex comment-row m-t-0">
+                            <div class="flex-shrink-0">
+                                <img src="assets/images/users/1.jpg" alt="user" class="rounded-circle">
+                            </div>
+                            <div class="flex-grow-1 ms-3">
+                                <h6>James Anderson</h6>
+                                <p class="small mb-2">Lorem Ipsum is simply dummy text of the printing and type setting industry.</p>
+                                <span class="text-muted small">April 14, 2016</span>
+                            </div>
+                        </div>
+                        <div class="d-flex comment-row">
+                            <div class="flex-shrink-0">
+                                <img src="assets/images/users/4.jpg" alt="user" class="rounded-circle">
+                            </div>
+                            <div class="flex-grow-1 ms-3">
+                                <h6>Michael Jorden</h6>
+                                <p class="small mb-2">Lorem Ipsum is simply dummy text of the printing and type setting industry.</p>
+                                <span class="text-muted small">May 10, 2016</span>
+                            </div>
+                        </div>
+                        <div class="d-flex comment-row">
+                            <div class="flex-shrink-0">
+                                <img src="assets/images/users/5.jpg" alt="user" class="rounded-circle">
+                            </div>
+                            <div class="flex-grow-1 ms-3">
+                                <h6>Johnathan Doeting</h6>
+                                <p class="small mb-2">Lorem Ipsum is simply dummy text of the printing and type setting industry.</p>
+                                <span class="text-muted small">August 1, 2016</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Accordion Section -->
+                <div class="accordion mb-4" id="accordionExample">
+                    <div class="card">
+                        <div class="card-header" id="headingOne">
+                            <h5 class="mb-0">
+                                <a data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                    <i class="mdi mdi-magnet"></i>
+                                    <span>Accordion Example 1</span>
+                                </a>
+                            </h5>
+                        </div>
+                        <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
+                            <div class="card-body">
+                                Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-header" id="headingTwo">
+                            <h5 class="mb-0">
+                                <a class="collapsed" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                                    <i class="mdi mdi-magnet"></i>
+                                    <span>Accordion Example 2</span>
+                                </a>
+                            </h5>
+                        </div>
+                        <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample">
+                            <div class="card-body">
+                                Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-header" id="headingThree">
+                            <h5 class="mb-0">
+                                <a class="collapsed" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                                    <i class="mdi mdi-magnet"></i>
+                                    <span>Accordion Example 3</span>
+                                </a>
+                            </h5>
+                        </div>
+                        <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordionExample">
+                            <div class="card-body">
+                                Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Toggle Section -->
+                <div class="card mb-4" id="accordian-4">
+                    <div class="card-header" data-toggle="collapse" data-parent="#accordian-4" href="#Toggle-1" aria-expanded="true" aria-controls="Toggle-1" style="cursor: pointer;">
+                        <div class="d-flex align-items-center">
+                            <i class="mdi mdi-arrow-right-drop-circle text-primary me-2"></i>
+                            <span class="fw-600">Toggle, Open by default</span>
+                        </div>
+                    </div>
+                    <div id="Toggle-1" class="collapse show">
+                        <div class="card-body">
+                            This box is opened by default, paragraphs and is full of waffle to pad out the comment. Usually, you just wish these sorts of comments would come to an end.
+                        </div>
+                    </div>
+                    
+                    <div class="card-header border-top" data-toggle="collapse" data-parent="#accordian-4" href="#Toggle-2" aria-expanded="false" aria-controls="Toggle-2" style="cursor: pointer;">
+                        <div class="d-flex align-items-center">
+                            <i class="mdi mdi-close-circle text-danger me-2"></i>
+                            <span class="fw-600">Toggle, Closed by default</span>
+                        </div>
+                    </div>
+                    <div id="Toggle-2" class="collapse">
+                        <div class="card-body">
+                            This box is now open
+                        </div>
+                    </div>
+                    
+                    <div class="card-header border-top" data-toggle="collapse" data-parent="#accordian-4" href="#Toggle-3" aria-expanded="false" aria-controls="Toggle-3" style="cursor: pointer;">
+                        <div class="d-flex align-items-center">
+                            <i class="mdi mdi-close-circle text-danger me-2"></i>
+                            <span class="fw-600">Toggle, Closed by default</span>
+                        </div>
+                    </div>
+                    <div id="Toggle-3" class="collapse">
+                        <div class="card-body">
+                            This box is now open
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tabs -->
+                <div class="card">
+                    <ul class="nav nav-tabs" role="tablist">
+                        <li class="nav-item"> 
+                            <a class="nav-link active" data-toggle="tab" href="#home" role="tab">Tab 1</a>
+                        </li>
+                        <li class="nav-item"> 
+                            <a class="nav-link" data-toggle="tab" href="#profile" role="tab">Tab 2</a>
+                        </li>
+                        <li class="nav-item"> 
+                            <a class="nav-link" data-toggle="tab" href="#messages" role="tab">Tab 3</a>
+                        </li>
+                    </ul>
+                    <div class="tab-content">
+                        <div class="tab-pane active" id="home" role="tabpanel">
+                            <div>
+                                <p>And is full of waffle to It has multiple paragraphs and is full of waffle to pad out the comment. Usually, you just wish these sorts of comments would come to an end.</p>
+                                <img src="assets/images/background/img4.jpg" class="img-fluid rounded-3 mt-3" alt="tab image">
+                            </div>
+                        </div>
+                        <div class="tab-pane" id="profile" role="tabpanel">
+                            <div>
+                                <img src="assets/images/background/img4.jpg" class="img-fluid rounded-3 mb-3" alt="tab image">
+                                <p>And is full of waffle to It has multiple paragraphs and is full of waffle to pad out the comment.</p>
+                            </div>
+                        </div>
+                        <div class="tab-pane" id="messages" role="tabpanel">
+                            <div>
+                                <p>And is full of waffle to It has multiple paragraphs and is full of waffle to pad out the comment.</p>
+                                <img src="assets/images/background/img4.jpg" class="img-fluid rounded-3 mt-3" alt="tab image">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- ============================================================== -->
+    <!-- End Container fluid  -->
+    <!-- ============================================================== -->
+</div>
+<!-- ============================================================== -->
+<!-- End Page wrapper  -->
+<!-- ============================================================== -->
+
+<script>
+// Initialize tooltips
+$(function () {
+    $('[data-toggle="tooltip"]').tooltip()
+})
+
+// Add animation to stats cards
+document.addEventListener('DOMContentLoaded', function() {
+    const cards = document.querySelectorAll('.stat-card, .dashboard-card');
+    cards.forEach((card, index) => {
+        card.style.animation = `fadeIn 0.3s ease forwards ${index * 0.05}s`;
+        card.style.opacity = '0';
+    });
+});
+</script>
+
+<%-include('footer')%>

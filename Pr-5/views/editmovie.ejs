@@ -1,0 +1,139 @@
+<%- include('header')%>
+```html
+<!-- ================= UPDATE MOVIE – PREMIUM UI ================= -->
+<div class="container py-5">
+  <div class="card update-movie-card border-0">
+
+    <!-- Header -->
+    <div class="card-header update-header text-center py-4">
+      <h3 class="fw-bold mb-1">
+        <i class="fa-solid fa-pen-to-square me-2"></i>Update Movie
+      </h3>
+      <p class="small mb-0">Edit and manage movie details</p>
+    </div>
+
+    <!-- Body -->
+    <div class="card-body p-4 p-lg-5">
+      <form action="/update-movie/<%=movie.id%>" method="post" enctype="multipart/form-data">
+
+        <div class="row g-4">
+
+          <!-- LEFT -->
+          <div class="col-lg-6">
+            <h5 class="section-title"><i class="fa-solid fa-film me-2"></i>Basic Information</h5>
+
+            <div class="form-floating mb-3">
+              <input type="text" name="title" class="form-control glass-input" value="<%=movie.title%>" placeholder="Movie Title" required>
+              <label>Movie Title</label>
+            </div>
+
+            <div class="form-floating mb-3">
+              <input type="text" name="director" class="form-control glass-input" value="<%=movie.director%>" placeholder="Director" required>
+              <label>Director</label>
+            </div>
+
+            <div class="input-group mb-3">
+              <span class="input-group-text"><i class="fa-solid fa-calendar-days"></i></span>
+              <input type="date" name="year" value="<%=movie.year%>" class="form-control glass-input" required>
+            </div>
+
+            <div class="input-group mb-3">
+              <span class="input-group-text"><i class="fa-solid fa-clock"></i></span>
+              <input type="number" name="duration" class="form-control glass-input" value="<%=movie.duration%>" placeholder="Duration (min)" required>
+            </div>
+
+            <div class="input-group mb-3">
+              <span class="input-group-text"><i class="fa-solid fa-globe"></i></span>
+              <select name="language" class="form-select glass-input" required>
+                <option <%=movie.language==="Hindi"?"selected":""%>>Hindi</option>
+                <option <%=movie.language==="English"?"selected":""%>>English</option>
+                <option <%=movie.language==="Telugu"?"selected":""%>>Telugu</option>
+              </select>
+            </div>
+
+            <label class="form-label text-light">Genre</label>
+            <select name="genre" class="form-select glass-input mb-3">
+              <option <%=movie.genre==="Action"?"selected":""%>>Action</option>
+              <option <%=movie.genre==="Comedy"?"selected":""%>>Comedy</option>
+              <option <%=movie.genre==="Drama"?"selected":""%>>Drama</option>
+              <option <%=movie.genre==="Horror"?"selected":""%>>Horror</option>
+              <option <%=movie.genre==="Sci-Fi"?"selected":""%>>Sci-Fi</option>
+              <option <%=movie.genre==="Romance"?"selected":""%>>Romance</option>
+              <option <%=movie.genre==="Thriller"?"selected":""%>>Thriller</option>
+            </select>
+
+            <label class="form-label text-light">Industry</label>
+            <select name="industry" class="form-select glass-input">
+              <option <%=movie.industry==="Bollywood"?"selected":""%>>Bollywood</option>
+              <option <%=movie.industry==="Hollywood"?"selected":""%>>Hollywood</option>
+            </select>
+          </div>
+
+          <!-- RIGHT -->
+          <div class="col-lg-6">
+            <h5 class="section-title"><i class="fa-solid fa-circle-info me-2"></i>Additional Information</h5>
+
+            <label class="form-label text-light">IMDB Rating</label>
+            <div class="input-group mb-3">
+              <input type="number" name="rating" class="form-control glass-input" value="<%=movie.rating%>" min="0" max="10">
+              <span class="input-group-text">/10</span>
+            </div>
+
+            <label class="form-label text-light">Movie Poster</label>
+            <div class="input-group mb-3">
+              <input type="file" name="poster" class="form-control glass-input">
+              <span class="input-group-text"><i class="fa-solid fa-upload"></i></span>
+            </div>
+
+            <div class="poster-preview mt-3">
+              <img src="<%=movie.poster%>" class="img-fluid rounded-4 shadow" alt="Movie Poster">
+            </div>
+          </div>
+        </div>
+
+        <div class="text-end mt-5 pt-4 border-top border-secondary">
+          <button type="submit" class="btn btn-gradient px-5">
+            <i class="fa-solid fa-floppy-disk me-2"></i>Save Changes
+          </button>
+        </div>
+
+      </form>
+    </div>
+  </div>
+</div>
+
+<style>
+.update-movie-card{
+  background: linear-gradient(135deg,#0b061f,#1b1035,#2a145a);
+  border-radius:22px;
+  box-shadow:0 30px 60px rgba(0,0,0,0.55);
+}
+.update-header{
+  background: linear-gradient(135deg,#ec4899,#a855f7);
+  color:#fff;
+  border-radius:22px 22px 0 0;
+}
+.section-title{color:#facc15;margin-bottom:20px;}
+.glass-input{
+  background:rgba(255,255,255,0.08)!important;
+  border:1px solid rgba(255,255,255,0.2)!important;
+  color:#fff!important;
+}
+.glass-input::placeholder{color:#cbd5f5;}
+.input-group-text{
+  background:rgba(255,255,255,0.12);
+  border:1px solid rgba(255,255,255,0.2);
+  color:#fff;
+}
+.btn-gradient{
+  background:linear-gradient(135deg,#ec4899,#a855f7);
+  border:none;
+  color:#fff;
+}
+.btn-gradient:hover{
+  transform:translateY(-2px);
+  box-shadow:0 12px 30px rgba(236,72,153,0.6);
+}
+</style>
+```
+<%- include('footer')%>

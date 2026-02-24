@@ -1,0 +1,623 @@
+<%- include('header')%>
+
+<style>
+    /* Profile Page Custom Styles */
+    
+    .profile-wrapper {
+        min-height: calc(100vh - 200px);
+        padding: 30px 0;
+    }
+    
+    .profile-container {
+        background: linear-gradient(145deg, #ffffff, #f8f9fa);
+        border-radius: 25px;
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.08);
+        overflow: hidden;
+        position: relative;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+    
+    .profile-container::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 5px;
+        background: linear-gradient(90deg, #667eea 0%, #764ba2 50%, #2ecc71 100%);
+    }
+    
+    /* Profile Image Section */
+    .profile-image-section {
+        padding: 40px;
+        position: relative;
+        background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+        border-radius: 20px 0 0 20px;
+    }
+    
+    .profile-image-wrapper {
+        position: relative;
+        width: 100%;
+        height: 450px;
+        border-radius: 20px;
+        overflow: hidden;
+        box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+        transition: all 0.4s ease;
+        border: 5px solid white;
+    }
+    
+    .profile-image-wrapper:hover {
+        transform: translateY(-10px) scale(1.02);
+        box-shadow: 0 25px 60px rgba(0, 0, 0, 0.2);
+    }
+    
+    .profile-image-wrapper img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.6s ease;
+    }
+    
+    .profile-image-wrapper:hover img {
+        transform: scale(1.05);
+    }
+    
+    .profile-image-overlay {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
+        padding: 30px 20px;
+        color: white;
+        transform: translateY(100%);
+        transition: transform 0.4s ease;
+    }
+    
+    .profile-image-wrapper:hover .profile-image-overlay {
+        transform: translateY(0);
+    }
+    
+    .profile-badge {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        background: linear-gradient(135deg, #2ecc71 0%, #27ae60 100%);
+        color: white;
+        padding: 8px 20px;
+        border-radius: 20px;
+        font-weight: 600;
+        box-shadow: 0 5px 15px rgba(46, 204, 113, 0.3);
+        z-index: 2;
+    }
+    
+    /* Profile Info Section */
+    .profile-info-section {
+        padding: 40px;
+        background: white;
+        border-radius: 0 20px 20px 0;
+    }
+    
+    .profile-header {
+        text-align: center;
+        margin-bottom: 40px;
+        position: relative;
+    }
+    
+    .profile-title {
+        font-size: 2.5rem;
+        font-weight: 800;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        margin-bottom: 15px;
+        position: relative;
+        display: inline-block;
+    }
+    
+    .profile-title::after {
+        content: '';
+        position: absolute;
+        bottom: -10px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 100px;
+        height: 4px;
+        background: linear-gradient(90deg, #667eea, #2ecc71);
+        border-radius: 2px;
+    }
+    
+    .profile-divider {
+        height: 4px;
+        background: linear-gradient(90deg, transparent, #3498db, transparent);
+        border: none;
+        margin: 30px 0;
+        border-radius: 2px;
+    }
+    
+    /* Info Cards */
+    .info-card {
+        background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+        border-radius: 20px;
+        padding: 30px;
+        margin-bottom: 30px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+        border: 1px solid rgba(255, 255, 255, 0.3);
+        transition: all 0.3s ease;
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .info-card:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+    }
+    
+    .info-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 5px;
+        height: 100%;
+        background: linear-gradient(180deg, #667eea 0%, #2ecc71 100%);
+    }
+    
+    .info-card-header {
+        display: flex;
+        align-items: center;
+        margin-bottom: 25px;
+    }
+    
+    .info-card-icon {
+        width: 60px;
+        height: 60px;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        border-radius: 15px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-right: 20px;
+        box-shadow: 0 8px 20px rgba(102, 126, 234, 0.3);
+    }
+    
+    .info-card-icon i {
+        font-size: 1.5rem;
+        color: white;
+    }
+    
+    .info-card-title {
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: #2c3e50;
+        margin: 0;
+    }
+    
+    .info-detail {
+        display: flex;
+        align-items: center;
+        padding: 15px 0;
+        border-bottom: 1px solid rgba(236, 240, 241, 0.5);
+    }
+    
+    .info-detail:last-child {
+        border-bottom: none;
+    }
+    
+    .info-label {
+        width: 150px;
+        font-weight: 600;
+        color: #7f8c8d;
+        font-size: 1rem;
+    }
+    
+    .info-value {
+        flex: 1;
+        font-size: 1.1rem;
+        font-weight: 600;
+        color: #2c3e50;
+    }
+    
+    .info-value-badge {
+        display: inline-block;
+        padding: 8px 20px;
+        background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
+        color: white;
+        border-radius: 25px;
+        font-weight: 600;
+        box-shadow: 0 5px 15px rgba(52, 152, 219, 0.2);
+    }
+    
+    /* Action Buttons */
+    .profile-actions {
+        display: flex;
+        gap: 15px;
+        margin-top: 40px;
+        padding-top: 30px;
+        border-top: 2px dashed #e0e0e0;
+    }
+    
+    .profile-btn {
+        flex: 1;
+        padding: 15px 25px;
+        border-radius: 15px;
+        font-weight: 600;
+        font-size: 1rem;
+        transition: all 0.3s ease;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        text-decoration: none;
+    }
+    
+    .profile-btn-edit {
+        background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
+        color: white;
+        border: none;
+    }
+    
+    .profile-btn-edit:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 10px 25px rgba(52, 152, 219, 0.3);
+        color: white;
+    }
+    
+    .profile-btn-back {
+        background: linear-gradient(135deg, #95a5a6 0%, #7f8c8d 100%);
+        color: white;
+        border: none;
+    }
+    
+    .profile-btn-back:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 10px 25px rgba(149, 165, 166, 0.3);
+        color: white;
+    }
+    
+    /* Responsive Design */
+    @media (max-width: 992px) {
+        .profile-image-section {
+            border-radius: 20px 20px 0 0;
+            padding: 30px;
+        }
+        
+        .profile-info-section {
+            border-radius: 0 0 20px 20px;
+            padding: 30px;
+        }
+        
+        .profile-image-wrapper {
+            height: 350px;
+        }
+    }
+    
+    @media (max-width: 768px) {
+        .profile-title {
+            font-size: 2rem;
+        }
+        
+        .info-card {
+            padding: 20px;
+        }
+        
+        .info-card-icon {
+            width: 50px;
+            height: 50px;
+            margin-right: 15px;
+        }
+        
+        .info-card-title {
+            font-size: 1.3rem;
+        }
+        
+        .profile-actions {
+            flex-direction: column;
+        }
+        
+        .profile-btn {
+            width: 100%;
+        }
+    }
+    
+    @media (max-width: 576px) {
+        .info-detail {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 5px;
+        }
+        
+        .info-label {
+            width: 100%;
+        }
+        
+        .profile-image-wrapper {
+            height: 300px;
+        }
+    }
+    
+    /* Animation */
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+    
+    .profile-container {
+        animation: fadeIn 0.8s ease-out;
+    }
+    
+    /* Gender specific styling */
+    .gender-male .info-card-icon {
+        background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
+    }
+    
+    .gender-female .info-card-icon {
+        background: linear-gradient(135deg, #e84393 0%, #fd79a8 100%);
+    }
+    
+    .gender-other .info-card-icon {
+        background: linear-gradient(135deg, #00b894 0%, #00cec9 100%);
+    }
+    
+    /* Status indicators */
+    .status-indicator {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+    }
+    
+    .status-dot {
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        display: inline-block;
+        animation: pulse 2s infinite;
+    }
+    
+    .status-active .status-dot {
+        background: #2ecc71;
+        box-shadow: 0 0 0 0 rgba(46, 204, 113, 0.7);
+    }
+    
+    @keyframes pulse {
+        0% {
+            box-shadow: 0 0 0 0 rgba(46, 204, 113, 0.7);
+        }
+        70% {
+            box-shadow: 0 0 0 10px rgba(46, 204, 113, 0);
+        }
+        100% {
+            box-shadow: 0 0 0 0 rgba(46, 204, 113, 0);
+        }
+    }
+</style>
+
+<div class="page-wrapper">
+    <div class="page-breadcrumb">
+        <div class="row">
+            <div class="col-12 d-flex no-block align-items-center">
+                <h4 class="page-title">Profile</h4>
+                <div class="ml-auto text-right">
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="/">Home</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">View Profile</li>
+                        </ol>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container-fluid profile-wrapper">
+        <div class="row justify-content-center">
+            <div class="col-12">
+                <div class="profile-container">
+                    <div class="row g-0">
+                        <!-- Profile Image Section -->
+                        <div class="col-lg-4 col-md-5">
+                            <div class="profile-image-section">
+                                <div class="profile-image-wrapper">
+                                    <img src="<%=locals.user.profileImage || '/images/default-avatar.png'%>" 
+                                         alt="<%=locals.user.firstname%> <%=locals.user.lastname%>"
+                                         onerror="this.src='/images/default-avatar.png'">
+                                    
+                                    <div class="profile-image-overlay">
+                                        <h5 class="mb-2"><%=locals.user.firstname%> <%=locals.user.lastname%></h5>
+                                        <p class="mb-0">Member since <%= new Date(locals.user.createdAt).toLocaleDateString('en-US', { 
+                                            year: 'numeric', 
+                                            month: 'long', 
+                                            day: 'numeric' 
+                                        }) %></p>
+                                    </div>
+                                    
+                                    <div class="profile-badge">
+                                        <i class="fas fa-user-check me-2"></i>
+                                        <%= locals.user.role === 'admin' ? 'Administrator' : 'User' %>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Profile Info Section -->
+                        <div class="col-lg-8 col-md-7">
+                            <div class="profile-info-section">
+                                <div class="profile-header">
+                                    <h1 class="profile-title">Profile Details</h1>
+                                    <p class="text-muted">Complete user profile information</p>
+                                </div>
+                                
+                                <hr class="profile-divider">
+                                
+                                <!-- Basic Information Card -->
+                                <div class="info-card gender-<%=locals.user.gender%>">
+                                    <div class="info-card-header">
+                                        <div class="info-card-icon">
+                                            <i class="fas fa-user-circle"></i>
+                                        </div>
+                                        <h3 class="info-card-title">Basic Information</h3>
+                                    </div>
+                                    
+                                    <div class="info-detail">
+                                        <span class="info-label">Full Name:</span>
+                                        <span class="info-value">
+                                            <%=locals.user.firstname%> <%=locals.user.lastname%>
+                                        </span>
+                                    </div>
+                                    
+                                    <div class="info-detail">
+                                        <span class="info-label">Gender:</span>
+                                        <span class="info-value">
+                                            <span class="info-value-badge">
+                                                <i class="fas fa-<%=locals.user.gender === 'male' ? 'mars' : (locals.user.gender === 'female' ? 'venus' : 'transgender')%> me-2"></i>
+                                                <%=locals.user.gender.charAt(0).toUpperCase() + locals.user.gender.slice(1)%>
+                                            </span>
+                                        </span>
+                                    </div>
+                                    
+                                    <div class="info-detail">
+                                        <span class="info-label">User ID:</span>
+                                        <span class="info-value">#<%=locals.user.id || 'N/A'%></span>
+                                    </div>
+                                    
+                                    <div class="info-detail">
+                                        <span class="info-label">Account Status:</span>
+                                        <span class="info-value status-active">
+                                            <span class="status-dot"></span>
+                                            <span>Active</span>
+                                        </span>
+                                    </div>
+                                </div>
+                                
+                                <!-- Contact Information Card -->
+                                <div class="info-card">
+                                    <div class="info-card-header">
+                                        <div class="info-card-icon">
+                                            <i class="fas fa-address-card"></i>
+                                        </div>
+                                        <h3 class="info-card-title">Contact Information</h3>
+                                    </div>
+                                    
+                                    <div class="info-detail">
+                                        <span class="info-label">Email Address:</span>
+                                        <span class="info-value">
+                                            <i class="fas fa-envelope text-primary me-2"></i>
+                                            <%=locals.user.email%>
+                                        </span>
+                                    </div>
+                                    
+                                    <div class="info-detail">
+                                        <span class="info-label">Mobile Number:</span>
+                                        <span class="info-value">
+                                            <i class="fas fa-phone text-success me-2"></i>
+                                            <%=locals.user.contactNo || 'Not provided'%>
+                                        </span>
+                                    </div>
+                                    
+                                    <div class="info-detail">
+                                        <span class="info-label">Account Type:</span>
+                                        <span class="info-value">
+                                            <span class="info-value-badge">
+                                                <i class="fas fa-user-shield me-2"></i>
+                                                <%= locals.user.role === 'admin' ? 'Administrator' : 'Standard User' %>
+                                            </span>
+                                        </span>
+                                    </div>
+                                </div>
+                                
+                                <!-- Additional Information Card (if available) -->
+                                <% if (locals.user.address || locals.user.birthdate) { %>
+                                <div class="info-card">
+                                    <div class="info-card-header">
+                                        <div class="info-card-icon">
+                                            <i class="fas fa-info-circle"></i>
+                                        </div>
+                                        <h3 class="info-card-title">Additional Information</h3>
+                                    </div>
+                                    
+                                    <% if (locals.user.address) { %>
+                                    <div class="info-detail">
+                                        <span class="info-label">Address:</span>
+                                        <span class="info-value">
+                                            <i class="fas fa-map-marker-alt text-danger me-2"></i>
+                                            <%=locals.user.address%>
+                                        </span>
+                                    </div>
+                                    <% } %>
+                                    
+                                    <% if (locals.user.birthdate) { %>
+                                    <div class="info-detail">
+                                        <span class="info-label">Birth Date:</span>
+                                        <span class="info-value">
+                                            <i class="fas fa-birthday-cake text-warning me-2"></i>
+                                            <%= new Date(locals.user.birthdate).toLocaleDateString('en-US', {
+                                                year: 'numeric',
+                                                month: 'long',
+                                                day: 'numeric'
+                                            }) %>
+                                        </span>
+                                    </div>
+                                    <% } %>
+                                </div>
+                                <% } %>
+                                
+                                <!-- Action Buttons -->
+                                <div class="profile-actions">
+                                    <a href="/edit-profile" class="profile-btn profile-btn-edit">
+                                        <i class="fas fa-edit"></i>
+                                        Edit Profile
+                                    </a>
+                                    <a href="/" class="profile-btn profile-btn-back">
+                                        <i class="fas fa-arrow-left"></i>
+                                        Back to Dashboard
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<%- include('footer')%>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Add image loading fallback
+        const profileImage = document.querySelector('.profile-image-wrapper img');
+        profileImage.addEventListener('error', function() {
+            this.src = '/images/default-avatar.png';
+        });
+        
+        // Add smooth hover effects
+        const infoCards = document.querySelectorAll('.info-card');
+        infoCards.forEach(card => {
+            card.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-8px)';
+            });
+            
+            card.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(0)';
+            });
+        });
+        
+        // Add click animation to buttons
+        const buttons = document.querySelectorAll('.profile-btn');
+        buttons.forEach(button => {
+            button.addEventListener('click', function(e) {
+                this.style.transform = 'scale(0.95)';
+                setTimeout(() => {
+                    this.style.transform = '';
+                }, 200);
+            });
+        });
+    });
+</script>

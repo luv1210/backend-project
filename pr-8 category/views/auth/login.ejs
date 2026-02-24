@@ -1,0 +1,622 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modern Auth UI</title>
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+
+        * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+    background: #0a0a0a;
+    min-height: 100vh;
+    color: #e0e0e0;
+}
+
+/* Preloader */
+.preloader {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: #0a0a0a;
+    z-index: 9999;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.lds-ripple {
+    display: inline-block;
+    position: relative;
+    width: 80px;
+    height: 80px;
+}
+
+.lds-ripple div {
+    position: absolute;
+    border: 4px solid #00a86b;
+    opacity: 1;
+    border-radius: 50%;
+    animation: lds-ripple 1s cubic-bezier(0, 0.2, 0.8, 1) infinite;
+}
+
+.lds-ripple div:nth-child(2) {
+    animation-delay: -0.5s;
+}
+
+@keyframes lds-ripple {
+    0% {
+        top: 36px;
+        left: 36px;
+        width: 0;
+        height: 0;
+        opacity: 0;
+    }
+    5% {
+        top: 36px;
+        left: 36px;
+        width: 0;
+        height: 0;
+        opacity: 1;
+    }
+    100% {
+        top: 0px;
+        left: 0px;
+        width: 72px;
+        height: 72px;
+        opacity: 0;
+    }
+}
+
+/* Auth Wrapper */
+.auth-wrapper {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+/* Auth Box */
+.auth-box {
+    width: 450px;
+    background: #1a1a1a;
+    border-radius: 12px;
+    padding: 40px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    border: 1px solid #333;
+    animation: slideUp 0.4s ease-out;
+}
+
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Logo */
+.logo-container {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.logo-img {
+    width: 80px;
+    height: auto;
+    opacity: 0.9;
+}
+
+/* Title */
+.auth-title {
+    color: #fff;
+    font-size: 24px;
+    font-weight: 500;
+    text-align: center;
+    margin-bottom: 30px;
+    border-bottom: 2px solid #333;
+    padding-bottom: 15px;
+}
+
+/* Input Groups */
+.input-group {
+    margin-bottom: 20px;
+    position: relative;
+}
+
+.input-group-prepend {
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    z-index: 10;
+}
+
+.input-group-text {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 50px;
+    height: 50px;
+    background: #252525;
+    border: 1px solid #333;
+    border-radius: 8px 0 0 8px;
+    color: #888;
+    font-size: 16px;
+}
+
+.form-control {
+    width: 100%;
+    height: 50px;
+    padding: 0 15px 0 60px;
+    border: 1px solid #333;
+    border-radius: 8px;
+    background: #1f1f1f;
+    color: #fff;
+    font-size: 14px;
+    transition: all 0.2s ease;
+}
+
+.form-control::placeholder {
+    color: #666;
+}
+
+.form-control:focus {
+    outline: none;
+    border-color: #00a86b;
+    background: #252525;
+}
+
+/* Button Container */
+.button-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 30px;
+    gap: 15px;
+}
+
+/* Buttons */
+.btn {
+    height: 45px;
+    padding: 0 20px;
+    border: none;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.btn-info {
+    background: #2a2a2a;
+    color: #e0e0e0;
+    border: 1px solid #404040;
+}
+
+.btn-info:hover {
+    background: #333;
+}
+
+.btn-success {
+    background: #00a86b;
+    color: #fff;
+    font-weight: 500;
+}
+
+.btn-success:hover {
+    background: #008c56;
+}
+
+/* Recover Form */
+#recoverform {
+    display: none;
+}
+
+.recover-text {
+    color: #aaa;
+    text-align: center;
+    margin: 20px 0;
+    font-size: 14px;
+}
+
+.recover-text i {
+    color: #00a86b;
+    font-size: 36px;
+    margin-bottom: 10px;
+}
+
+/* Links */
+a {
+    color: #00a86b;
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+a:hover {
+    color: #008c56;
+    text-decoration: underline;
+}
+
+/* Text Utilities */
+.text-muted {
+    color: #666 !important;
+}
+
+.text-white {
+    color: #fff !important;
+}
+
+/* Responsive */
+@media (max-width: 480px) {
+    .auth-box {
+        padding: 30px 20px;
+    }
+
+    .button-container {
+        flex-direction: column;
+    }
+
+    .btn {
+        width: 100%;
+    }
+    
+    .auth-title {
+        font-size: 22px;
+    }
+    
+    .form-control {
+        height: 45px;
+        font-size: 14px;
+    }
+    
+    .input-group-text {
+        width: 45px;
+        height: 45px;
+        font-size: 14px;
+    }
+}
+
+/* Animations */
+.fade-in {
+    animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(5px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: #1a1a1a;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #404040;
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
+
+/* Loading State */
+.btn.loading {
+    position: relative;
+    color: transparent;
+    pointer-events: none;
+}
+
+.btn.loading::after {
+    content: '';
+    position: absolute;
+    width: 18px;
+    height: 18px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border: 2px solid #fff;
+    border-radius: 50%;
+    border-top-color: transparent;
+    animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+    to { transform: translate(-50%, -50%) rotate(360deg); }
+}
+
+/* Error State */
+.form-control.error {
+    border-color: #f44336;
+    background: #2a1a1a;
+}
+
+.error-message {
+    color: #f44336;
+    font-size: 12px;
+    margin-top: 4px;
+}
+
+/* Success State */
+.form-control.success {
+    border-color: #00a86b;
+    background: #1a2a1a;
+}
+
+/* Checkbox */
+.custom-checkbox {
+    display: flex;
+    align-items: center;
+    color: #ccc;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.custom-checkbox input {
+    width: 16px;
+    height: 16px;
+    margin-right: 8px;
+    accent-color: #00a86b;
+    cursor: pointer;
+    background: #1f1f1f;
+    border: 1px solid #333;
+}
+
+/* Divider */
+.divider {
+    display: flex;
+    align-items: center;
+    text-align: center;
+    color: #666;
+    font-size: 13px;
+    margin: 20px 0;
+}
+
+.divider::before,
+.divider::after {
+    content: '';
+    flex: 1;
+    border-bottom: 1px solid #333;
+}
+
+.divider::before {
+    margin-right: 10px;
+}
+
+.divider::after {
+    margin-left: 10px;
+}
+
+/* Social Buttons */
+.btn-social {
+    background: #1f1f1f;
+    border: 1px solid #333;
+    color: #fff;
+    width: 100%;
+    margin-bottom: 10px;
+    height: 42px;
+}
+
+.btn-social:hover {
+    background: #2a2a2a;
+}
+
+.btn-social i {
+    font-size: 16px;
+    margin-right: 8px;
+}
+
+/* Card */
+.card {
+    background: #1a1a1a;
+    border: 1px solid #333;
+    border-radius: 8px;
+    padding: 20px;
+}
+
+/* Badge */
+.badge {
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 12px;
+    font-weight: 500;
+}
+
+.badge-success {
+    background: #1a2a1a;
+    color: #00a86b;
+    border: 1px solid #2a4a2a;
+}
+
+.badge-info {
+    background: #1a2a3a;
+    color: #58a6ff;
+    border: 1px solid #2a4a6a;
+}
+
+/* Alert */
+.alert {
+    padding: 12px 16px;
+    border-radius: 6px;
+    margin-bottom: 20px;
+    border-left: 4px solid;
+}
+
+.alert-success {
+    background: #1a2a1a;
+    border-left-color: #00a86b;
+    color: #98fb98;
+}
+
+.alert-error {
+    background: #2a1a1a;
+    border-left-color: #f44336;
+    color: #ffb6b6;
+}
+
+.alert-info {
+    background: #1a2a3a;
+    border-left-color: #58a6ff;
+    color: #add8ff;
+}
+
+/* Focus Visible */
+:focus-visible {
+    outline: 2px solid #00a86b;
+    outline-offset: 2px;
+}
+    </style>
+</head>
+<body>
+    <!-- Preloader -->
+    <div class="preloader">
+        <div class="lds-ripple">
+            <div class="lds-pos"></div>
+            <div class="lds-pos"></div>
+        </div>
+    </div>
+
+    <!-- Main Wrapper -->
+    <div class="main-wrapper">
+        <div class="auth-wrapper">
+            <div class="auth-box">
+                <!-- Login Form -->
+                <div id="loginform">
+                    <div class="logo-container">
+                        <img src="/assets/images/logo.png" alt="logo" class="logo-img" />
+                    </div>
+                    <h2 class="auth-title">Welcome Back</h2>
+                    
+                    <form class="form-horizontal" action="/user/login" method="post">
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text"><i class="fas fa-envelope"></i></span>
+                            </div>
+                            <input type="email" class="form-control" name="email" placeholder="Email Address" required>
+                        </div>
+                        
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text"><i class="fas fa-lock"></i></span>
+                            </div>
+                            <input type="password" class="form-control" name="password" placeholder="Password" required>
+                        </div>
+
+                        <div class="button-container">
+                            <button class="btn btn-info" id="to-recover" type="button">
+                                <i class="fas fa-key"></i> Lost password?
+                            </button>
+
+                            <button class="btn btn-primary" onclick="window.location.href='/web'">
+        <i class="fas fa-globe"></i> web page
+    </button>
+                            <button class="btn btn-success" type="submit">
+                                <i class="fas fa-sign-in-alt"></i> Login
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Recover Form -->
+                <div id="recoverform">
+                    <div class="logo-container">
+                        <img src="/assets/images/logo.png" alt="logo" class="logo-img" />
+                    </div>
+                    <h2 class="auth-title">Reset Password</h2>
+                    
+                    <div class="recover-text">
+                        <i class="fas fa-envelope-open-text" style="font-size: 40px; margin-bottom: 15px; opacity: 0.8;"></i>
+                        <p>Enter your email address below and we'll send you instructions to reset your password.</p>
+                    </div>
+
+                    <form action="/user/forget-password" method="post">
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text"><i class="fas fa-envelope"></i></span>
+                            </div>
+                            <input type="email" class="form-control" name="email" placeholder="Email Address" required>
+                        </div>
+
+                        <div class="button-container">
+                            <a href="#" class="btn btn-info" id="to-login">
+                                <i class="fas fa-arrow-left"></i> Back
+                            </a>
+                            <button class="btn btn-success" type="submit">
+                                <i class="fas fa-paper-plane"></i> Send
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="/assets/libs/jquery/dist/jquery.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            // Hide preloader
+            $(".preloader").fadeOut(1000);
+
+            // Login and Recover Password toggle
+            $('#to-recover').on("click", function() {
+                $("#loginform").slideUp(400, function() {
+                    $("#recoverform").fadeIn(400).addClass('fade-in');
+                });
+            });
+
+            $('#to-login').on("click", function(e) {
+                e.preventDefault();
+                $("#recoverform").slideUp(400, function() {
+                    $("#loginform").fadeIn(400).addClass('fade-in');
+                });
+            });
+
+            // Add floating label effect
+            $('.form-control').on('focus', function() {
+                $(this).closest('.input-group').find('.input-group-text').css({
+                    'background': 'linear-gradient(135deg, #764ba2, #667eea)',
+                    'transform': 'scale(1.05)'
+                });
+            }).on('blur', function() {
+                $(this).closest('.input-group').find('.input-group-text').css({
+                    'background': 'linear-gradient(135deg, #667eea, #764ba2)',
+                    'transform': 'scale(1)'
+                });
+            });
+        });
+    </script>
+</body>
+</html>

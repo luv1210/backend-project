@@ -1,0 +1,173 @@
+<%- include('../header') %>
+
+<div class="page-wrapper">
+<div class="container-fluid">
+
+<%
+const selectedCategoryId = product?.categoryid?._id?.toString() || product?.categoryid?.toString() || "";
+const selectedSubcategoryId = product?.subcategoryid?._id?.toString() || product?.subcategoryid?.toString() || "";
+const selectedExtracategoryId = product?.extracategoryid?._id?.toString() || product?.extracategoryid?.toString() || "";
+%>
+
+<form action="/product/edit/<%= product._id %>" method="POST" enctype="multipart/form-data">
+
+<div class="form-group">
+<label>Title</label>
+<input class="form-control" name="title" type="text" value="<%= product.title || '' %>" required>
+</div>
+
+<div class="form-group">
+<label>Price</label>
+<input class="form-control" name="price" type="number" value="<%= product.price || '' %>" required>
+</div>
+
+<div class="form-group">
+<label>Description</label>
+<textarea class="form-control" name="Description" rows="4"><%= product.Description || '' %></textarea>
+</div>
+
+<!-- CATEGORY -->
+<div class="form-group">
+<label>Category</label>
+<select class="form-control" id="categoryid" name="categoryid" required>
+<option value="">Select Category</option>
+
+<% categories.forEach(function(category){ %>
+<option value="<%= category._id %>"
+<%= selectedCategoryId === category._id.toString() ? "selected" : "" %>>
+<%= category.category %>
+</option>
+<% }) %>
+
+</select>
+</div>
+
+<!-- SUBCATEGORY -->
+<div class="form-group">
+<label>Sub Category</label>
+<select class="form-control" id="subcategoryid" name="subcategoryid">
+<option value="">Select Sub Category</option>
+
+<% subcategories.forEach(function(subcategory){ %>
+<option value="<%= subcategory._id %>"
+<%= selectedSubcategoryId === subcategory._id.toString() ? "selected" : "" %>>
+<%= subcategory.subcategory %>
+</option>
+<% }) %>
+
+</select>
+</div>
+
+<!-- EXTRA CATEGORY -->
+<div class="form-group">
+<label>Extra Category</label>
+<select class="form-control" id="extracategoryid" name="extracategoryid">
+<option value="">Select Extra Category</option>
+
+<% extracategories.forEach(function(extracategory){ %>
+<option value="<%= extracategory._id %>"
+<%= selectedExtracategoryId === extracategory._id.toString() ? "selected" : "" %>>
+<%= extracategory.extracategory %>
+</option>
+<% }) %>
+
+</select>
+</div>
+
+<!-- IMAGE -->
+<div class="form-group">
+<label>Current Image</label><br>
+<% if (product.productImage) { %>
+<img src="<%= product.productImage %>" style="height:100px">
+<% } %>
+</div>
+
+<div class="form-group">
+<label>New Image</label>
+<input class="form-control-file" name="productImage" type="file">
+<input name="oldImage" type="hidden" value="<%= product.productImage || '' %>">
+</div>
+
+<button class="btn btn-primary">Update Product</button>
+<a class="btn btn-secondary" href="/product/view-product">Cancel</a>
+
+</form>
+</div>
+</div>
+
+<%- include('../footer') %>
+ <script>
+
+     document.addEventListener("DOMContentLoaded", function () {
+
+let category = document.getElementById('categoryid');
+let subcategory = document.getElementById('subcategoryid');
+let extracategory = document.getElementById('extracategoryid');
+
+// store selected ids from edit product
+let selectedSubcategory = "<%= product?.subcategoryid?._id || '' %>";
+let selectedExtraCategory = "<%= product?.extracategoryid?._id || '' %>";
+
+
+// ✅ Load subcategory
+function loadSubcategory() {
+    if (!category.value) return;
+subcategory.innerHTML = '<option value="">Select subcategory</option>';
+ extracategory.innerHTML = '<option value="">Select extra category</option>'
+    fetch(`/findcategories/getsubcategory/${category.value}`)
+        .then(res => res.json())
+        .then(data => {
+
+            subcategory.innerHTML =
+                '<option value="">Select subcategory</option>' +
+                data.subcategory.map(s =>
+                    `<option ${selectedSubcategory == s._id ? 'selected' : ''} value="${s._id}">
+                        ${s.subcategory}
+                    </option>`
+                ).join('');
+
+            // ⭐ auto load extra category AFTER subcategory loads
+            if (selectedSubcategory) {
+                subcategory.value = selectedSubcategory;
+                loadExtraCategory();
+            }
+        });
+}
+
+
+// ✅ Load extracategory
+function loadExtraCategory() {
+    if (!subcategory.value) return;
+
+    fetch(`/findcategories/getextracategory/${subcategory.value}`)
+        .then(res => res.json())
+        .then(data => {
+
+            extracategory.innerHTML =
+                '<option value="">Select extra category</option>' +
+                data.extracategory.map(e =>
+                    `<option ${selectedExtraCategory == e._id ? 'selected' : ''} value="${e._id}">
+                        ${e.extracategory}
+                    </option>`
+                ).join('');
+        });
+}
+
+
+// events
+category.addEventListener("change", () => {
+    selectedSubcategory = "";
+    selectedExtraCategory = "";
+    loadSubcategory();
+});
+
+subcategory.addEventListener("change", () => {
+    selectedExtraCategory = "";
+    loadExtraCategory();
+});
+
+// ⭐ auto load on page open (edit page)
+if (category.value) loadSubcategory();
+
+});
+    </script>

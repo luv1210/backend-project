@@ -1,0 +1,738 @@
+<%- include('../header')%>
+
+<style>
+    /* Subcategory Form - Enhanced CSS */
+
+/* Page wrapper background */
+.page-wrapper {
+    background: linear-gradient(135deg, #e3f2fd 0%, #f3e5f5 100%);
+    min-height: 100vh;
+}
+
+/* Card styling */
+.card {
+    border-radius: 20px;
+    border: none;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.08);
+    background: linear-gradient(145deg, #ffffff, #f8f9fa);
+    overflow: hidden;
+    transition: all 0.4s ease;
+    margin-top: 20px;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 30px 80px rgba(0, 0, 0, 0.12);
+}
+
+.card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 5px;
+    background: linear-gradient(90deg, #7b1fa2 0%, #9c27b0 50%, #2196f3 100%);
+}
+
+/* Card body */
+.card-body {
+    padding: 40px;
+}
+
+/* Form title */
+.page-title {
+    font-size: 2rem;
+    font-weight: 800;
+    background: linear-gradient(135deg, #7b1fa2 0%, #2196f3 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 30px;
+    position: relative;
+    padding-bottom: 15px;
+}
+
+.page-title::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 80px;
+    height: 3px;
+    background: linear-gradient(90deg, #7b1fa2, #2196f3);
+    border-radius: 2px;
+}
+
+/* Breadcrumb styling */
+.page-breadcrumb {
+    background: white;
+    border-radius: 15px;
+    padding: 20px;
+    margin: 20px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+}
+
+.breadcrumb {
+    background: none;
+    padding: 0;
+    margin: 0;
+}
+
+.breadcrumb-item a {
+    color: #7b1fa2;
+    text-decoration: none;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.breadcrumb-item a:hover {
+    color: #2196f3;
+    text-decoration: underline;
+}
+
+.breadcrumb-item.active {
+    color: #2c3e50;
+    font-weight: 600;
+}
+
+/* Form group styling */
+.form-group {
+    margin-bottom: 30px;
+    transition: all 0.3s ease;
+}
+
+.form-group:hover {
+    transform: translateX(5px);
+}
+
+.form-group label {
+    font-weight: 600;
+    color: #2c3e50;
+    font-size: 1rem;
+    padding-top: 12px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+.form-group label::after {
+    content: '';
+    position: absolute;
+    right: 15px;
+    color: #7b1fa2;
+    font-weight: bold;
+}
+
+/* Input field styling */
+.form-control {
+    border: 2px solid #e0e0e0;
+    border-radius: 12px;
+    padding: 14px 20px;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    background: white;
+    box-shadow: 0 3px 15px rgba(0, 0, 0, 0.05);
+}
+
+.form-control:focus {
+    border-color: #7b1fa2;
+    box-shadow: 0 5px 25px rgba(123, 31, 162, 0.15);
+    transform: translateY(-2px);
+    outline: none;
+}
+
+.form-control::placeholder {
+    color: #bdc3c7;
+    opacity: 0.8;
+}
+
+/* Submit button section */
+.border-top {
+    border-top: 2px dashed #e0e0e0 !important;
+}
+
+.card-body.text-center {
+    padding: 30px !important;
+}
+
+/* Submit button */
+.btn-primary {
+    background: linear-gradient(135deg, #7b1fa2 0%, #2196f3 100%);
+    border: none;
+    color: white;
+    padding: 14px 40px;
+    border-radius: 15px;
+    font-weight: 600;
+    font-size: 1.1rem;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+    min-width: 180px;
+}
+
+.btn-primary::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: left 0.5s;
+}
+
+.btn-primary:hover::before {
+    left: 100%;
+}
+
+.btn-primary:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 15px 35px rgba(123, 31, 162, 0.4);
+    color: white;
+}
+
+.btn-primary:active {
+    transform: translateY(-1px);
+}
+
+/* Back link styling */
+.back-link {
+    display: inline-block;
+    margin-top: 20px;
+    color: #7b1fa2;
+    text-decoration: none;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.back-link:hover {
+    color: #2196f3;
+    text-decoration: underline;
+    transform: translateX(-5px);
+}
+
+/* Form validation styling */
+.form-control:invalid:not(:placeholder-shown) {
+    border-color: #e74c3c;
+    background-color: rgba(231, 76, 60, 0.05);
+}
+
+.form-control:valid:not(:placeholder-shown) {
+    border-color: #27ae60;
+    background-color: rgba(39, 174, 96, 0.05);
+}
+
+/* Required field indicator */
+.form-group label[required]::before {
+    content: '*';
+    color: #e74c3c;
+    margin-right: 5px;
+}
+
+/* Container fluid spacing */
+.container-fluid {
+    padding: 20px;
+}
+
+/* Animation for form elements */
+@keyframes slideInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.form-group {
+    animation: slideInUp 0.5s ease-out;
+    animation-fill-mode: both;
+}
+
+.form-group:nth-child(1) { animation-delay: 0.1s; }
+.form-group:nth-child(2) { animation-delay: 0.2s; }
+
+/* Hover effect for entire form */
+form:hover .form-group {
+    opacity: 0.8;
+}
+
+form:hover .form-group:hover {
+    opacity: 1;
+}
+
+/* Submit button loading state */
+.btn-primary.loading {
+    pointer-events: none;
+    opacity: 0.8;
+}
+
+.btn-primary.loading::after {
+    content: '';
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-top-color: white;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin-left: 10px;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .container-fluid {
+        padding: 15px;
+    }
+    
+    .card-body {
+        padding: 25px;
+    }
+    
+    .page-title {
+        font-size: 1.6rem;
+    }
+    
+    .form-group label {
+        text-align: left !important;
+        padding-bottom: 8px;
+        padding-top: 0;
+        justify-content: flex-start;
+    }
+    
+    .form-group label::after {
+        display: none;
+    }
+    
+    .btn-primary {
+        width: 100%;
+        max-width: 300px;
+    }
+}
+
+@media (max-width: 576px) {
+    .container-fluid {
+        padding: 10px;
+    }
+    
+    .card-body {
+        padding: 20px 15px;
+    }
+    
+    .page-title {
+        font-size: 1.4rem;
+    }
+    
+    .form-control {
+        padding: 12px 15px;
+    }
+    
+    .btn-primary {
+        padding: 12px 30px;
+        font-size: 1rem;
+    }
+    
+    .back-link {
+        font-size: 0.9rem;
+    }
+}
+
+/* Subcategory icon styling */
+.subcategory-icon {
+    display: inline-block;
+    margin-right: 10px;
+    color: #7b1fa2;
+}
+
+/* Focus states for accessibility */
+.form-control:focus-visible {
+    outline: 2px solid #7b1fa2;
+    outline-offset: 2px;
+}
+
+
+    select.form-control:not([size]):not([multiple]){
+        height: inherit !important;
+    }
+    
+
+/* Form helper text */
+.form-helper {
+    font-size: 0.85rem;
+    color: #7f8c8d;
+    margin-top: 8px;
+    font-style: italic;
+}
+
+/* Success/Error messages */
+.alert {
+    border-radius: 12px;
+    border: none;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+    margin-bottom: 25px;
+    animation: slideInUp 0.5s ease-out;
+}
+
+.alert-success {
+    background: linear-gradient(135deg, #27ae60 0%, #2ecc71 100%);
+    color: white;
+}
+
+.alert-danger {
+    background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+    color: white;
+}
+
+/* Form header enhancement */
+.form-header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.form-header h4 {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: #2c3e50;
+    margin-bottom: 10px;
+    position: relative;
+    display: inline-block;
+    padding-bottom: 15px;
+}
+
+.form-header h4::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60px;
+    height: 3px;
+    background: linear-gradient(90deg, #7b1fa2, #2196f3);
+    border-radius: 2px;
+}
+
+/* Category select enhancement */
+.category-select-wrapper {
+    position: relative;
+}
+
+.category-select-wrapper::after {
+    content: '\f078';
+    font-family: 'Font Awesome 5 Free';
+    font-weight: 900;
+    position: absolute;
+    right: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #7b1fa2;
+    pointer-events: none;
+    font-size: 0.9rem;
+}
+
+/* Category preview styling */
+.category-preview {
+    display: inline-block;
+    padding: 8px 16px;
+    background: linear-gradient(135deg, rgba(123, 31, 162, 0.1) 0%, rgba(33, 150, 243, 0.1) 100%);
+    border-radius: 10px;
+    margin-top: 10px;
+    color: #7b1fa2;
+    font-weight: 500;
+    font-size: 0.9rem;
+    border-left: 3px solid #7b1fa2;
+}
+
+/* Form section divider */
+.form-section-divider {
+    height: 1px;
+    background: linear-gradient(90deg, transparent, #7b1fa2, transparent);
+    margin: 25px 0;
+    border: none;
+}
+
+/* Input group styling for form */
+.form-input-group {
+    position: relative;
+    margin-bottom: 20px;
+}
+
+.form-input-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+    color: #2c3e50;
+}
+
+/* Placeholder styling */
+::placeholder {
+    color: #95a5a6;
+    opacity: 0.7;
+}
+
+/* Disabled state styling */
+.form-control:disabled {
+    background-color: #f8f9fa;
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+/* Readonly state styling */
+.form-control[readonly] {
+    background-color: #f8f9fa;
+    border-color: #e0e0e0;
+}
+
+/* Print styles */
+@media print {
+    .card {
+        box-shadow: none;
+        border: 1px solid #ddd;
+    }
+    
+    .btn-primary,
+    .back-link {
+        display: none;
+    }
+    
+    .page-breadcrumb {
+        box-shadow: none;
+        border: 1px solid #ddd;
+    }
+}
+
+/* Fieldset styling */
+fieldset {
+    border: 2px solid #7b1fa2;
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 25px;
+    background: rgba(123, 31, 162, 0.02);
+}
+
+legend {
+    font-weight: 600;
+    color: #7b1fa2;
+    padding: 0 15px;
+    font-size: 1.1rem;
+}
+
+/* Form grid layout */
+.form-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+}
+
+/* Character counter */
+.char-counter {
+    text-align: right;
+    font-size: 0.85rem;
+    color: #7f8c8d;
+    margin-top: 5px;
+}
+
+.char-counter.warning {
+    color: #f39c12;
+    font-weight: 500;
+}
+
+.char-counter.error {
+    color: #e74c3c;
+    font-weight: 600;
+}
+
+/* Form feedback icons */
+.has-success .form-control {
+    border-color: #27ae60;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%2327ae60' viewBox='0 0 16 16'%3E%3Cpath d='M12.736 3.97a.733.733 0 0 1 1.047 0c.286.289.29.756.01 1.05L7.88 12.01a.733.733 0 0 1-1.065.02L3.217 8.384a.757.757 0 0 1 0-1.06.733.733 0 0 1 1.047 0l3.052 3.093 5.4-6.425a.247.247 0 0 1 .02-.022z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 20px center;
+    background-size: 16px;
+    padding-right: 50px;
+}
+
+.has-error .form-control {
+    border-color: #e74c3c;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%23e74c3c' viewBox='0 0 16 16'%3E%3Cpath d='M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z'/%3E%3Cpath d='M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 20px center;
+    background-size: 16px;
+    padding-right: 50px;
+}
+
+/* Tooltip styling */
+.tooltip-custom {
+    position: relative;
+    display: inline-block;
+}
+
+.tooltip-custom:hover::after {
+    content: attr(data-tooltip);
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #2c3e50;
+    color: white;
+    padding: 8px 12px;
+    border-radius: 6px;
+    font-size: 0.85rem;
+    white-space: nowrap;
+    z-index: 1000;
+    margin-bottom: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.tooltip-custom:hover::before {
+    content: '';
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    border: 6px solid transparent;
+    border-top-color: #2c3e50;
+    margin-bottom: -4px;
+    z-index: 1001;
+}
+
+/* Form loading overlay */
+.form-loading {
+    position: relative;
+    pointer-events: none;
+    opacity: 0.7;
+}
+
+.form-loading::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(255, 255, 255, 0.8);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    color: #7b1fa2;
+    font-size: 1.2rem;
+}
+
+/* Form success state */
+.form-success {
+    background: rgba(39, 174, 96, 0.05);
+    border: 2px solid #27ae60;
+}
+
+/* Form error state */
+.form-error {
+    background: rgba(231, 76, 60, 0.05);
+    border: 2px solid #e74c3c;
+}
+
+/* Form info state */
+.form-info {
+    background: rgba(52, 152, 219, 0.05);
+    border: 2px solid #3498db;
+}
+
+/* Form warning state */
+.form-warning {
+    background: rgba(243, 156, 18, 0.05);
+    border: 2px solid #f39c12;
+}
+</style>
+        <!-- ============================================================== -->
+        <!-- Page wrapper  -->
+        <!-- ============================================================== -->
+        <div class="page-wrapper">
+            <!-- ============================================================== -->
+            <!-- Bread crumb and right sidebar toggle -->
+            <!-- ============================================================== -->
+            <div class="page-breadcrumb">
+                <div class="row">
+                    <div class="col-12 d-flex no-block align-items-center">
+                        <h4 class="page-title">Add Sub Category</h4>
+                        <div class="ml-auto text-right">
+                            <nav aria-label="breadcrumb">
+                                <ol class="breadcrumb">
+                                    <li class="breadcrumb-item"><a href="/">Home</a></li>
+                                    <li class="breadcrumb-item active" aria-current="page">Sub Category</li>
+                                </ol>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- ============================================================== -->
+            <!-- End Bread crumb and right sidebar toggle -->
+            <!-- ============================================================== -->
+            <!-- ============================================================== -->
+            <!-- Container fluid  -->
+            <!-- ============================================================== -->
+            <div class="container-fluid">
+                <!-- ============================================================== -->
+                <!-- Start Page Content -->
+                <!-- ============================================================== -->
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="card">
+                            <form class="form-horizontal" action="/subcategory/add-subcategory" method="post">
+                                <div class="card-body">
+
+                                    <div class="form-group row">
+                                        <label for="fname" class="col-sm-3 text-right control-label col-form-label">Category</label>
+                                        <div class="col-sm-9">
+                                            <select name="categoryid" id="" class="form-control">
+                                                <option value="">Select SubCategory</option>
+                                                <%category.forEach((cat)=>{%>
+                                                    <option value="<%=cat.id%>"><%=cat.category%></option>
+                                                <%})%>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label for="fname" class="col-sm-3 text-right control-label col-form-label">SubCategory</label>
+                                        <div class="col-sm-9">
+                                            <input type="text" class="form-control" id="fname" name="subcategory" placeholder="SubCategory Name Here">
+                                        </div>
+                                    </div>
+                        
+                                </div>
+                                <div class="border-top text-center">
+                                    <div class="card-body ">
+                                        <button type="submit" class="btn btn-primary">Submit</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+
+                      
+
+                    </div>
+                
+                </div>
+                <!-- editor -->
+               
+                <!-- ============================================================== -->
+                <!-- End PAge Content -->
+                <!-- ============================================================== -->
+                <!-- ============================================================== -->
+                <!-- Right sidebar -->
+                <!-- ============================================================== -->
+                <!-- .right-sidebar -->
+                <!-- ============================================================== -->
+                <!-- End Right sidebar -->
+                <!-- ============================================================== -->
+            </div>
+            <!-- ============================================================== -->
+            <!-- End Container fluid  -->
+            <!-- ============================================================== -->
+           <%- include('../footer')%>
