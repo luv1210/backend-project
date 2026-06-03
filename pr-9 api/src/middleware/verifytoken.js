@@ -34,6 +34,3 @@ exports.verifytoken = async(req,res,next)=>{
         return res.json({message:'server error'})
     }
 }
-
-
-
